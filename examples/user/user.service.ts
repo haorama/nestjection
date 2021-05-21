@@ -4,6 +4,6 @@ import { User } from "./user.model";
 @Injectable()
 export class UserService {
     async getAll() {
-        await User.query();
+        return await User.query();
     }
 }

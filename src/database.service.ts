@@ -1,6 +1,6 @@
 import { Injectable, OnApplicationShutdown } from "@nestjs/common";
 import { Knex, knex } from 'knex';
-import { Model } from "./models";
+import { Model } from "./orm";
 import { ModuleOptions } from "./options";
 
 @Injectable()

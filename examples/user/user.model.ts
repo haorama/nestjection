@@ -1,4 +1,4 @@
-import { Model } from "@/models";
+import { Model } from "@/orm";
 
 export class User extends Model {
     name: string;

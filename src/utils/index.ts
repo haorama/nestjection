@@ -1,3 +1,5 @@
+export * from './array';
+
 import { TableConvention } from "@/unions";
 
 export function getModelTableConvention(convention: TableConvention, value: string) {
