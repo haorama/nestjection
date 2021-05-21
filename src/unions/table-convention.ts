@@ -1,0 +1,1 @@
+export type TableConvention = 'snake_case' | 'camelCase' | 'snake_case_plural';

@@ -1,0 +1,1 @@
+export const NESTJECTION_DB = 'NESTJECTION_DB';
