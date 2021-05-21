@@ -43,7 +43,7 @@ export class ModelSerializerInterceptor<T> implements NestInterceptor <T, Respon
         }
 
         if (data instanceof SimplePaginator) {
-            return data;
+            return data.toResponse();
         }
 
         return data;

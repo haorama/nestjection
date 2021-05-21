@@ -27,7 +27,13 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
     }
 
     /** Paginate the given model */
-    async paginate(options: PaginationOptions) {
+    async paginate(options?: PaginationOptions) {
+        options = {
+            perPage: 10,
+            page: 1,
+            ...options,
+        }
+
         const { results, total } = await this.page(options.page - 1, options.perPage);
 
         return new SimplePaginator<Model>(results, total, options);
