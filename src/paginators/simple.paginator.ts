@@ -1,6 +1,7 @@
 import { PaginationOptions } from "@/options";
+import {Model} from "objection";
 
-export class SimplePaginator<T = any> {
+export class SimplePaginator<T extends Model = any> {
     data: T[];
 
     total: number;
