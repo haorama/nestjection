@@ -1,13 +1,13 @@
 import { Injectable, OnApplicationShutdown } from "@nestjs/common";
 import { Knex, knex } from 'knex';
 import { Model } from "./orm";
-import { ModuleOptions } from "./options";
+import { DatabaseModuleOptions } from "./options";
 
 @Injectable()
 export class DatabaseService implements OnApplicationShutdown {
     private knex: Knex;
 
-    register(options: ModuleOptions) {
+    register(options: DatabaseModuleOptions) {
         this.knex = knex(options.db);
 
         if (!options.model) {

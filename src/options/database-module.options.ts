@@ -1,7 +1,7 @@
 import { Model } from 'objection';
 import {Knex} from 'knex';
 
-export interface ModuleOptions {
+export interface DatabaseModuleOptions {
     global?: boolean;
 
     /** Knex Connection Configuration*/

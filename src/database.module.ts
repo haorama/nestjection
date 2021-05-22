@@ -1,11 +1,11 @@
 import { DynamicModule, Module } from "@nestjs/common";
 import { NESTJECTION_DB } from "./constants";
 import { DatabaseService } from "./database.service";
-import { ModuleOptions } from "./options";
+import { DatabaseModuleOptions } from "./options";
 
 @Module({})
 export class DatabaseModule {
-    static forRoot(options: ModuleOptions): DynamicModule {
+    static forRoot(options: DatabaseModuleOptions): DynamicModule {
         const providers = [
             {
                 provide: NESTJECTION_DB,
@@ -22,5 +22,9 @@ export class DatabaseModule {
             providers: [...providers, DatabaseService],
             exports: [...providers]
         }
+    }
+
+    static forRootAsync() {
+
     }
 }
