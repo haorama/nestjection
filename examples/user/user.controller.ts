@@ -1,5 +1,6 @@
 import { ModelSerializerInterceptor } from "@/interceptors";
 import { Controller, Get, UseInterceptors } from "@nestjs/common";
+import { User } from "./user.model";
 import { UserService } from "./user.service";
 
 @Controller('user')
@@ -9,5 +10,12 @@ export class UserController {
     @Get()
     async index() {
         return await this.userService.getAll();
+    }
+
+    @Get('wow')
+    async user() {
+        const user = new User({email: 'wow'})
+
+        return user;
     }
 }

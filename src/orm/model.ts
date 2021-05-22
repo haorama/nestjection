@@ -8,6 +8,12 @@ export class Model extends ObjectionModel {
 
     static tableConvention?: TableConvention = 'snake_case_plural';
 
+    constructor(attrs: object = {}) {
+        super();
+
+        this.$set(attrs);
+    }
+
     /** Extender Query builder */
     static get QueryBuilder() {
         return QueryBuilder;
