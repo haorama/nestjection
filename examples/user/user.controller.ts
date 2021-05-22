@@ -1,5 +1,5 @@
-import { ModelSerializerInterceptor } from "@/interceptors";
 import { Controller, Get, UseInterceptors } from "@nestjs/common";
+import { ModelSerializerInterceptor } from "src";
 import { User } from "./user.model";
 import { UserService } from "./user.service";
 

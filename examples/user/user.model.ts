@@ -1,5 +1,5 @@
-import { Model } from "@/orm";
 import { Exclude } from "class-transformer";
+import { Model } from "src";
 
 export class User extends Model {
     name: string;

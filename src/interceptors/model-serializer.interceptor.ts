@@ -1,9 +1,9 @@
-import { Model } from '@/orm';
-import { SimplePaginator } from '@/paginators/simple.paginator';
 import { classToPlain } from 'class-transformer';
 import { Injectable, NestInterceptor, ExecutionContext, CallHandler,} from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Model } from 'src/orm';
+import { SimplePaginator } from 'src/paginators';
 
 export interface Response<T> {
     data: T

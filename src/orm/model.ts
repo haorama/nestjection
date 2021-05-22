@@ -1,6 +1,6 @@
-import { TableConvention } from '@/unions';
-import { getModelTableConvention } from '@/utils';
 import { Model as ObjectionModel } from 'objection';
+import { TableConvention } from 'src/unions';
+import { getModelTableConvention } from 'src/utils';
 import { QueryBuilder } from './query-builder';
 
 export class Model extends ObjectionModel {
