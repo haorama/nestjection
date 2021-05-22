@@ -93,14 +93,6 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
         return { attach, detach };
     }
 
-    softRemove() {
-        (this as any);
-
-        return (this as any).update({
-            deleted_at: new Date()
-        })
-    }
-
     /** update or create model by given whereOptions keys */
     async updateOrCreate(identifiers: any, extra: any = {}) {
         const model = await this.where(identifiers).first();
