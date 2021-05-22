@@ -23,8 +23,4 @@ export class DatabaseModule {
             exports: [...providers]
         }
     }
-
-    static forRootAsync() {
-
-    }
 }
