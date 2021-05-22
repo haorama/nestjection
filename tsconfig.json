@@ -2,18 +2,16 @@
     "compilerOptions": {
       "module": "commonjs",
       "declaration": true,
-      "removeComments": true,
+      "removeComments": false,
       "noLib": false,
       "allowSyntheticDefaultImports": true,
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
-      "allowJs": true,
       "target": "es6",
       "resolveJsonModule": true,
       "sourceMap": true,
       "outDir": "./dist",
       "esModuleInterop": true,
-      "moduleResolution": "node",
       "baseUrl": "./",
       "skipLibCheck": true,
       "types": [
@@ -25,5 +23,5 @@
       "src/**/*",
       "examples/**/*",
     ],
-    "exclude": ["node_modules", "**/*.spec.ts"]
+    "exclude": ["node_modules", "**/*.spec.ts", "dist"]
   }

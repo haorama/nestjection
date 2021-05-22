@@ -1,7 +1,7 @@
 import { classToPlain } from "class-transformer";
 import { Model } from "objection";
-import { PaginationOptions } from "src/options";
-import { objExcept } from "src/utils";
+import { PaginationOptions } from "../options";
+import { objExcept } from "../utils";
 
 export class AbstractPaginator<T extends Model> {
     data: T[];

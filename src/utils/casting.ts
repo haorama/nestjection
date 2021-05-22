@@ -1,4 +1,4 @@
-import { TableConvention } from "src/unions";
+import { TableConvention } from "../unions";
 
 export function getModelTableConvention(convention: TableConvention, value: string) {
     switch (convention) {

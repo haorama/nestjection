@@ -2,7 +2,7 @@ import { QueryBuilder as ObjectionQueryBuilder, Model as ObjectionModel, Page } 
 import {arrayDiff} from '../utils';
 import { Model as MyModel } from './model';
 import {PaginationOptions} from '../options';
-import { SimplePaginator } from 'src/paginators';
+import { SimplePaginator } from '../paginators';
 
 export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends ObjectionQueryBuilder<Model, R> {
     ArrayQueryBuilderType!: QueryBuilder<Model, Model[]>;
