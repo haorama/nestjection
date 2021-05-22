@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
       "module": "commonjs",
-      "declaration": false,
+      "declaration": true,
       "removeComments": true,
       "noLib": false,
       "allowSyntheticDefaultImports": true,
@@ -16,9 +16,6 @@
       "moduleResolution": "node",
       "baseUrl": "./",
       "skipLibCheck": true,
-      "paths": {
-        "@/*": ["src/*"]
-      },
       "types": [
         "@types/node",
         "knex/types"
