@@ -11,7 +11,7 @@ export function getModelTableConvention(convention: TableConvention, value: stri
     }
 }
 
-function toSnakeCase(value: string) {
+export function toSnakeCase(value: string) {
     return value.replace(/\W+/g, " ").split(/ |\B(?=[A-Z])/)
         .map(word => word.toLowerCase())
         .join('_');

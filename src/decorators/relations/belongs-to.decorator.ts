@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { BelongsToOptions } from '../../options/relations';
 import { Model } from '../../orm';
+import { appendOrCreateRelation } from '../../utils';
 
 export function BelongsTo(modelClass: () => typeof Model, options: BelongsToOptions = {}): PropertyDecorator {
     return (target: any, key: any) => {
@@ -18,15 +19,6 @@ export function BelongsTo(modelClass: () => typeof Model, options: BelongsToOpti
             }
         }
 
-        if (!model.relationMappings) {
-            model.relationMappings = {
-                [key]: relation
-            }
-        } else {
-            model.relationMappings = {
-                ...model.relationMappings,
-                [key]: relation
-            }
-        }
+        model.relationMappings = appendOrCreateRelation(model.relationMappings, key, relation)
     }
 }

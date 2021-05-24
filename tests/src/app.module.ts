@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../../src';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -15,5 +16,6 @@ import { DatabaseModule } from '../../src';
       }
     })
   ],
+  controllers: [AppController]
 })
 export class AppModule {}
