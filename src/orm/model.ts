@@ -65,10 +65,4 @@ export class Model extends ObjectionModel {
 
         return json;
     }
-
-    static boot() {
-        if (!this.booted) {
-            this.booted = true;
-        }
-    }
 }
