@@ -1,4 +1,4 @@
-import {Model} from "objection";
+import { Model } from "objection";
 import { PaginationOptions } from "../options";
 import { AbstractPaginator } from "./abstract.paginator";
 

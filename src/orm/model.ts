@@ -1,7 +1,6 @@
-import { classToPlain } from 'class-transformer';
 import { Model as ObjectionModel } from 'objection';
 import { TableConvention } from '../unions';
-import { getModelTableConvention } from '../utils';
+import { getModelTableConvention, objExcept } from '../utils';
 import { QueryBuilder } from './query-builder';
 
 export class Model extends ObjectionModel {
@@ -13,6 +12,10 @@ export class Model extends ObjectionModel {
         super();
 
         this.$set(attrs);
+    }
+
+    static get hiddenFields(): string[] {
+        return []
     }
 
     /** Extender Query builder */
@@ -32,6 +35,6 @@ export class Model extends ObjectionModel {
 
     /** Serialize the excluded property */
     serialize() {
-        return classToPlain(this);
+        return objExcept(this, (<typeof Model>this.constructor).hiddenFields);
     }
 }

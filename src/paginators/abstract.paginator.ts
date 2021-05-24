@@ -1,9 +1,9 @@
-import { classToPlain } from "class-transformer";
-import { Model } from "objection";
+import { Model as ObjectionModel } from "objection";
 import { PaginationOptions } from "../options";
+import { Model } from "../orm";
 import { objExcept } from "../utils";
 
-export class AbstractPaginator<T extends Model> {
+export class AbstractPaginator<T extends ObjectionModel> {
     data: T[];
 
     total: number;
@@ -39,10 +39,18 @@ export class AbstractPaginator<T extends Model> {
     toResponse() {
         return {
             ...objExcept(this, ['req']),
-            data: this.data.map(model => classToPlain(model)),
+            data: this.data.map(d => this.serialize(d)),
             nextPage: this.nextPage,
             prevPage: this.prevPage,
             lastPage: this.lastPage
         }
+    }
+
+    private serialize(data: any) {
+        if (data instanceof Model) {
+            return data.serialize();
+        }
+
+        return data;
     }
 }
