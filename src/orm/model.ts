@@ -6,6 +6,8 @@ import { QueryBuilder } from './query-builder';
 export class Model extends ObjectionModel {
     QueryBuilderType!: QueryBuilder<this>;
 
+    static booted = false;
+
     static tableConvention?: TableConvention = 'snake_case_plural';
 
     constructor(attrs: object = {}) {

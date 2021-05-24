@@ -11,6 +11,7 @@ tsconfig.json
 .prettierrc
 nestcli.json
 tsconfig.build.json
+.test
 
 # github
 .github

@@ -12,6 +12,7 @@
       "resolveJsonModule": true,
       "sourceMap": true,
       "outDir": "./dist",
+      "rootDir": "./src",
       "esModuleInterop": true,
       "moduleResolution": "node",
       "baseUrl": "./",
@@ -21,9 +22,6 @@
         "knex/types"
       ]
     },
-    "include": [
-      "src/**/*",
-      "examples/**/*",
-    ],
-    "exclude": ["node_modules", "**/*.spec.ts", "examples"]
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "**/*.spec.ts", "tests"]
   }

@@ -1,5 +1,0 @@
-{
-    "collection": "@nestjs/schematics",
-    "sourceRoot": "examples",
-    "outDir": "example_dist"
-}

@@ -6,7 +6,8 @@
     "prepublish": "tsc",
     "build": "rimraf -rf dist && tsc -p tsconfig.json",
     "publish:npm": "npm publish --access public",
-    "prepublish:npm": "npm run build"
+    "prepublish:npm": "npm run build",
+    "dev": "nest start --path ./tests/tsconfig.json --config ./tests/nest-cli.json --watch"
   },
   "repository": {
     "type": "git",
