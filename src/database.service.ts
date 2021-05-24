@@ -10,11 +10,7 @@ export class DatabaseService implements OnApplicationShutdown {
     register(options: DatabaseModuleOptions) {
         this.knex = knex(options.db);
 
-        if (!options.model) {
-            options.model = Model;
-        }
-
-        options.model.knex(this.knex);
+        Model.knex(this.knex);
     }
 
     async onApplicationShutdown() {
