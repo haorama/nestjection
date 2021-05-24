@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Nestjs integration for Objection+Knex",
   "scripts": {
-    "dev": "nest start --watch",
     "prepublish": "tsc"
   },
   "repository": {
