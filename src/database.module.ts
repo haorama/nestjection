@@ -2,6 +2,7 @@ import { DynamicModule, Module } from "@nestjs/common";
 import { NESTJECTION_DB } from "./constants";
 import { DatabaseService } from "./database.service";
 import { DatabaseModuleOptions } from "./options";
+import { RelationScanner } from "./relation.scanner";
 
 @Module({})
 export class DatabaseModule {
@@ -19,7 +20,7 @@ export class DatabaseModule {
         return {
             global: options.global ?? true,
             module: DatabaseModule,
-            providers: [...providers, DatabaseService],
+            providers: [...providers, DatabaseService, RelationScanner],
             exports: [...providers]
         }
     }

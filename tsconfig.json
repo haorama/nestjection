@@ -8,7 +8,7 @@
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "allowJs": true,
-      "target": "es6",
+      "target": "es2017",
       "resolveJsonModule": true,
       "sourceMap": true,
       "outDir": "./dist",
@@ -23,7 +23,6 @@
     },
     "include": [
       "src/**/*",
-      "examples/**/*",
     ],
-    "exclude": ["node_modules", "**/*.spec.ts", "examples"]
+    "exclude": ["node_modules", "**/*.spec.ts"]
   }
