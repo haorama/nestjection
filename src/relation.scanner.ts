@@ -1,7 +1,6 @@
 import 'reflect-metadata';
-import { Injectable, OnApplicationBootstrap, OnModuleInit } from "@nestjs/common";
-import { NESTJECTION_HAS_ONE } from './constants';
-import { User } from '../examples/user.model';
+import { Injectable, OnModuleInit } from "@nestjs/common";
+import { User } from './example.model';
 
 @Injectable()
 export class RelationScanner implements OnModuleInit {
@@ -10,6 +9,8 @@ export class RelationScanner implements OnModuleInit {
     }
 
     scanRelation() {
-        const user = User.query();
+        const user = User;
+
+        console.log(user)
     }
 }
