@@ -1,3 +1,4 @@
+import { classToPlain } from 'class-transformer';
 import { Model as ObjectionModel } from 'objection';
 import { TableConvention } from '../unions';
 import { getModelTableConvention } from '../utils';
@@ -27,5 +28,10 @@ export class Model extends ObjectionModel {
     /** Set this to true if you want to implement soft delete, In progress */
     static get useSoftDelete() {
         return false;
+    }
+
+    /** Serialize the excluded property */
+    serialize() {
+        return classToPlain(this);
     }
 }
