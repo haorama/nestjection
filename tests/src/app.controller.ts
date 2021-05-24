@@ -8,8 +8,10 @@ export class AppController {
     @Get()
     @UseInterceptors(ModelSerializerInterceptor)
     async root() {
-        const blog = await Blog.query().first().withGraphFetched('user');
+        const blogs = await Blog.query().withGraphFetched('user');
 
-        return blog;
+        return {
+            blogs
+        }
     }
 }
