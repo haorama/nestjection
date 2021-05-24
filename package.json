@@ -1,9 +1,11 @@
 {
   "name": "@mlazuardy/nestjection",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Nestjs integration for Objection+Knex",
   "scripts": {
-    "prepublish": "tsc"
+    "prepublish": "tsc",
+    "build": "rimraf -rf dist && tsc -p tsconfig.json",
+    "publish:npm": "npm publish --access public"
   },
   "repository": {
     "type": "git",
@@ -39,6 +41,7 @@
     "mysql2": "^2.2.5",
     "objection": "^2.2.15",
     "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
     "rxjs": "^7.0.1",
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
