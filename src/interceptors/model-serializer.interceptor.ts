@@ -2,7 +2,7 @@ import { classToPlain } from 'class-transformer';
 import { Injectable, NestInterceptor, ExecutionContext, CallHandler,} from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Model } from 'objection';
+import { Model } from '../orm';
 import { SimplePaginator } from '../paginators';
 
 export interface Response<T> {
@@ -38,7 +38,7 @@ export class ModelSerializerInterceptor<T> implements NestInterceptor <T, Respon
      */
     transformToPlain(data: any, ctx?: ExecutionContext) {
         if (data instanceof Model) {
-            return classToPlain(data);
+            return data.serialize()
         }
 
         if (data instanceof SimplePaginator) {
