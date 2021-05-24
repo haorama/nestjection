@@ -29,18 +29,18 @@
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
     "knex": "^0.95.0",
-    "objection": "^2.0.0"
+    "objection": "^2.0.0",
+    "class-transformer": "^0.4.0",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@nestjs/common": "^7.6.17",
     "@nestjs/core": "^7.6.17",
     "@nestjs/platform-express": "^7.6.17",
     "@types/node": "^15.3.1",
-    "class-transformer": "^0.4.0",
     "knex": "^0.95.6",
     "mysql2": "^2.2.5",
     "objection": "^2.2.15",
-    "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.1",
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
