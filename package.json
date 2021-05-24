@@ -1,11 +1,12 @@
 {
   "name": "@mlazuardy/nestjection",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Nestjs integration for Objection+Knex",
   "scripts": {
     "prepublish": "tsc",
     "build": "rimraf -rf dist && tsc -p tsconfig.json",
-    "publish:npm": "npm publish --access public"
+    "publish:npm": "npm publish --access public",
+    "prepublish:npm": "npm run build"
   },
   "repository": {
     "type": "git",
