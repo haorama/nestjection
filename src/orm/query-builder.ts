@@ -1,7 +1,7 @@
 import { QueryBuilder as ObjectionQueryBuilder, Model as ObjectionModel, Page } from 'objection';
-import {arrayDiff} from '../utils';
+import { arrayDiff } from '../utils';
 import { Model as MyModel } from './model';
-import {PaginationOptions} from '../options';
+import { PaginationOptions } from '../options';
 import { SimplePaginator } from '../paginators';
 
 export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends ObjectionQueryBuilder<Model, R> {
@@ -42,7 +42,7 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
     /**
      * Order latest query by given column param
      */
-    latest(column:string = 'created_at') {
+    latest(column: string = 'created_at') {
         return this.orderBy(column, 'desc');
     }
 
@@ -119,9 +119,9 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
         return model;
     }
 
-    /** Find or fail query */
+    /** find given idColumn and throw error, only except single attribute */
     findOrFail(id: any) {
-        return this.where('id', id).firstOrFail();
+        return this.where(this.modelClass().idColumn, id).firstOrFail();
     }
 
     async firstOrNew(keys: any) {

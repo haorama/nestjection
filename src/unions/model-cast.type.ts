@@ -1,0 +1,1 @@
+export type ModelCase = 'number' | 'float' | 'json' | 'string';
