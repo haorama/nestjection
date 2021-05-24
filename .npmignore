@@ -12,6 +12,7 @@ tsconfig.json
 nestcli.json
 tsconfig.build.json
 .test
+nodemon.json
 
 # github
 .github

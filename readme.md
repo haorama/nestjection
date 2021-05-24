@@ -130,29 +130,3 @@ export class UserController {
     return user;
   }
 }
-```
-Note that this interceptor will not work if your controller doesnt return instance of `Model`.
-Instead you can use `serialize` method from the model instance
-
-```typescript
-import { Controller, Get, UseInterceptors, Param } from '@nestjs/common';
-import { User } from './user.model'; //change this path
-import { ModelSerializerInterceptor } from '@mlazuardy/nestjection';
-
-@Controller('api/users')
-export class UserController {
-  @Get()
-  @UseInterceptors(ModelSerializerInterceptor)
-  async index() {
-    // this will not work
-    const users = await User.query();
-
-    const user = await User.query().first();
-
-    return {
-      user: user.serialize(),//this should be work,
-      users: users.map(user => user.serialize()), // you can map the array of user model first and then serialize it
-    }
-  }
-}
-```

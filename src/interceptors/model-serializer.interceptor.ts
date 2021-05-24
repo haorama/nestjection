@@ -37,11 +37,36 @@ export class ModelSerializerInterceptor<T> implements NestInterceptor <T, Respon
      */
     transformToPlain(data: any, ctx?: ExecutionContext) {
         if (data instanceof Model) {
+            for (const [key, value] of Object.entries(data)) {
+                if (value instanceof Model) {
+                    data[key] = this.transformToPlain(value)
+                }
+
+                if (Array.isArray(value)) {
+                    data[key] = value.map(v => this.transformToPlain(v))
+                }
+            }
+
             return data.serialize()
         }
 
         if (data instanceof SimplePaginator) {
             return data.toResponse();
+        }
+
+        return this.deepCheck(data);
+    }
+
+    /** Dont know how to named this method */
+    deepCheck(data: any) {
+        for (const [key, value] of Object.entries(data)) {
+            if (value instanceof Model) {
+                data[key] = this.transformToPlain(value)
+            }
+
+            if (Array.isArray(value)) {
+                data[key] = value.map(v => this.transformToPlain(v))
+            }
         }
 
         return data;
