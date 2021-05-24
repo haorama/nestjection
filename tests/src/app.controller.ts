@@ -10,8 +10,6 @@ export class AppController {
     async root() {
         const blogs = await Blog.query().withGraphFetched('[user,comments]');
 
-        return {
-            blogs
-        }
+        return blogs;
     }
 }
