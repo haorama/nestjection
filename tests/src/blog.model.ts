@@ -1,6 +1,5 @@
-import { HasMany, Model } from "../../src";
+import { HasMany, Model, BelongsTo } from "../../src";
 import { User } from "./user.model";
-import { BelongsTo } from '../../src';
 import { Comment } from "./comment.model";
 
 export class Blog extends Model {

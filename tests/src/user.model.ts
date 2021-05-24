@@ -1,4 +1,5 @@
-import { Model } from "../../src";
+import { HasOne, Model } from "../../src";
+import { Blog } from "./blog.model";
 
 export class User extends Model {
     static get hiddenFields() {
@@ -10,4 +11,7 @@ export class User extends Model {
     name: string;
 
     password: string;
+
+    @HasOne(() => Blog)
+    blog: Blog;
 }

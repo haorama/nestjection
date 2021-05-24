@@ -8,8 +8,7 @@ export class AppController {
     @Get()
     @UseInterceptors(ModelSerializerInterceptor)
     async root() {
-        const blogs = await Blog.query().withGraphFetched('[user,comments]');
-
-        return blogs;
+        console.log(Blog.relationMappings)
+        return true;
     }
 }

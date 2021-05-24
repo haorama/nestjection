@@ -10,15 +10,17 @@ export function HasMany(modelClass: () => typeof Model, options: HasManyOptions 
         const foreignKey = options.foreignKey ?? `${toSnakeCase(model.name)}_id`;
         const localKey = options.localKey ?? 'id';
 
-        const relation = {
-            modelClass: targetModel,
-            relation: model.HasManyRelation,
-            join: {
-                from: `${model.tableName}.${localKey}`,
-                to: `${targetModel.tableName}.${foreignKey}`
+        if (targetModel) {
+            const relation = {
+                modelClass: targetModel,
+                relation: model.HasManyRelation,
+                join: {
+                    from: `${model.tableName}.${localKey}`,
+                    to: `${targetModel.tableName}.${foreignKey}`
+                }
             }
-        }
 
-        model.relationMappings = appendOrCreateRelation(model.relationMappings, key, relation)
+            model.relationMappings = appendOrCreateRelation(model.relationMappings, key, relation)
+        }
     }
 }
