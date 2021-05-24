@@ -9,6 +9,8 @@ package-lock.json
 tslint.json
 tsconfig.json
 .prettierrc
+nestcli.json
+tsconfig.build.json
 
 # github
 .github
