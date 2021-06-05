@@ -4,6 +4,7 @@ import { Model } from '../../orm';
 import { appendOrCreateRelation, toSnakeCase } from '../../utils';
 
 export function BelongsTo(modelClass: () => typeof Model, options: BelongsToOptions = {}): PropertyDecorator {
+    console.log('belongs to called')
     return (target: any, key: string) => {
         const model = (<typeof Model>target.constructor);
 
