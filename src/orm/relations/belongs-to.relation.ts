@@ -3,7 +3,7 @@ import { toSnakeCase } from "../../utils";
 import { Model } from "../model";
 import { BaseRelation } from "./base.relation";
 
-export class BelongsToRelation extends BaseRelation {
+export class BelongsTo extends BaseRelation {
     options: BelongsToOptions;
 
     foreignKey: string;
