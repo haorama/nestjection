@@ -3,4 +3,3 @@ export * from './options';
 export * from './interceptors';
 export * from './orm';
 export * from './paginators';
-export * from './decorators';

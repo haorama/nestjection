@@ -1,5 +1,5 @@
-import { Model } from "objection";
 import { BelongsToOptions } from "../../options";
+import { Model } from "../model";
 import { BelongsTo } from "./belongs-to.relation";
 
 export class Relation {
