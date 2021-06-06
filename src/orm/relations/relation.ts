@@ -1,8 +1,6 @@
-import { BelongsToOptions, HasManyOptions, HasOneOptions } from "../../options";
+import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasManyThroughOptions, HasOneOptions, MorphOneOptions } from "../../options";
 import { Model } from "../model";
-import { BelongsTo } from "./belongs-to.relation";
-import { HasManyRelation } from "./has-many.relation";
-import { HasOneRelation } from "./has-one.relation";
+import { BelongsToManyRelation, BelongsTo, HasManyThroughRelation, HasManyRelation, HasOneRelation, MorphOneRelation } from "./";
 
 export class Relation {
     target: typeof Model;
@@ -21,5 +19,17 @@ export class Relation {
 
     hasOne(relatedClass: typeof Model, options: HasOneOptions = {}) {
         return new HasOneRelation(this.target, relatedClass, options).getRelation();
+    }
+
+    belongsToMany(relatedClass: typeof Model, options: BelongsToManyOptions = {}) {
+        return new BelongsToManyRelation(this.target, relatedClass, options);
+    }
+
+    hasManyThrough(relatedClass: typeof Model, options: HasManyThroughOptions) {
+        return new HasManyThroughRelation(this.target, relatedClass, options);
+    }
+
+    morphOne(relatedClass: typeof Model, options: MorphOneOptions) {
+        return new MorphOneRelation(this.target, relatedClass, options);
     }
 }

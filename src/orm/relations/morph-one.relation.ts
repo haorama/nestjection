@@ -3,7 +3,7 @@ import { Model } from "../model";
 import { QueryBuilder } from "../query-builder";
 import { HasOneRelation } from "./has-one.relation";
 
-export class MorphOne extends HasOneRelation {
+export class MorphOneRelation extends HasOneRelation {
     morphName: string;
     type?: string;
     id?: string;
