@@ -8,8 +8,4 @@ export class BaseRelation {
         this.target = target;
         this.relatedClass = relatedClass;
     }
-
-    getRelation(): any {
-        return
-    }
 }
