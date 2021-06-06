@@ -1,4 +1,4 @@
-import { HasMany, Model, BelongsTo } from "../../src";
+import { Model } from "../../src";
 import { User } from "./user.model";
 import { Comment } from "./comment.model";
 
@@ -9,9 +9,13 @@ export class Blog extends Model {
 
     title: string;
 
-    @BelongsTo(() => User)
     user: User;
 
-    @HasMany(() => Comment)
     comments: Comment[];
+
+    static get relationMappings() {
+        return {
+            user: this.relation.belongsTo(User)
+        }
+    }
 }

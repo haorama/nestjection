@@ -10,12 +10,11 @@
       "allowJs": true,
       "target": "es6",
       "resolveJsonModule": true,
-      "sourceMap": true,
+      "sourceMap": false,
       "outDir": "./dist",
       "rootDir": "./src",
       "esModuleInterop": true,
       "moduleResolution": "node",
-      "baseUrl": "./",
       "skipLibCheck": true,
       "types": [
         "@types/node",
