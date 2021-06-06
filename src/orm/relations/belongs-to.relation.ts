@@ -1,6 +1,6 @@
+import { Model } from "objection";
 import { BelongsToOptions } from "../../options";
 import { toSnakeCase } from "../../utils";
-import { Model } from "../model";
 import { BaseRelation } from "./base.relation";
 
 export class BelongsTo extends BaseRelation {

@@ -1,5 +1,4 @@
-import { RelationMapping } from "objection";
-import { Model } from "../model";
+import { Model, RelationMapping } from "objection";
 
 export class BaseRelation {
     target: typeof Model;
