@@ -15,7 +15,6 @@
       "rootDir": "./src",
       "esModuleInterop": true,
       "moduleResolution": "node",
-      "baseUrl": "./",
       "skipLibCheck": true,
       "types": [
         "@types/node",
