@@ -2,6 +2,7 @@ import { Model as ObjectionModel, Pojo } from 'objection';
 import { TableConvention } from '../unions';
 import { getModelTableConvention, objExcept } from '../utils';
 import { QueryBuilder } from './query-builder';
+import { Relation } from './relations/relation';
 
 export class Model extends ObjectionModel {
     QueryBuilderType!: QueryBuilder<this>;
@@ -64,5 +65,9 @@ export class Model extends ObjectionModel {
         }
 
         return json;
+    }
+
+    static get relation() {
+        return new Relation(this)
     }
 }
