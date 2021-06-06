@@ -1,4 +1,3 @@
-import { RelationMapping } from "objection";
 import { Model } from "../model";
 
 export class BaseRelation {
@@ -10,7 +9,7 @@ export class BaseRelation {
         this.relatedClass = relatedClass;
     }
 
-    getRelation(): RelationMapping<any> {
+    getRelation(): any {
         return
     }
 }
