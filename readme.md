@@ -130,3 +130,86 @@ export class UserController {
     return user;
   }
 }
+```
+### Relationship
+Instead creating relation mappings that may have same pattern within your application over and over.
+We've provide a static getter that return predefined relation mapping.
+
+Most of the first argument of this relationship method use `typeof Model`
+
+All relationships method highly inspired from [Laravel Eloquent Relationship](https://laravel.com/docs/8.x/eloquent-relationships)
+
+#### Belongs To
+```typescript
+import { User } from './your-user-model-path.ts';
+import { Model } from '@mlazuardy/nestjection';
+
+export class Blog extends Model {
+  //the rest of user property
+
+  user_id: number;
+
+  user: User;
+
+  static get relationMappings() {
+    return {
+      user: this.relation.belongsTo(User),
+      // Other relation mapping here
+    }
+  }
+}
+```
+
+When defining the blog relation mappings, the `belongsTo` method will attempt to find a `User` model that has an `id` which matches the `user_id` column on the Blog model.
+
+The `Foreign Key` will convert your `class` name, for example `Blog` to snake case type + `_id` suffix.
+
+By default, `User` `id` will use as `Owner Key`
+
+Also this method will find your `tableName` automatically to determine the `join` property of `objection` relationMapping.
+
+To change this default determinations. you may pass a second argument of `belongsTo` method specifying your keys:
+
+```typescript
+export class Blog extends Model {
+  auth_id: number;
+
+  user: User;
+
+  static get relationMappings() {
+    return {
+      user: this.relation.belongsTo(User, {
+        foreignKey: 'auth_id', //from Blog column
+        ownerKey: 'uuid' // from User column,
+      })
+    }
+  }
+}
+```
+both options are optional, so you may pass only `foreignKey` or `ownerKey`.
+
+#### Has One
+Not much difference from `belongsTo`,
+
+```typescript
+import { Profile } from 'your-profile-model-path.ts';
+import { Model } from '@mlazuardy/nestjection';
+
+export class User extends Model {
+  profile: Profile;
+
+  static get relationMappings() {
+    return {
+      profile: this.relation.hasOne(Profile)
+    }
+  }
+}
+```
+
+### Polymorphic Relations
+
+#### Morph One
+
+
+### Contributing
+Contributing are always open since im not an expert to create a package, creating test case or writing english documentation. I'm Happy that you guys can help me improving this package.
