@@ -47,3 +47,5 @@ static/storage/*
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+
+db.json

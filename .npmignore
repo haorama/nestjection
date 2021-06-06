@@ -1,0 +1,23 @@
+# IDE
+.vscode
+
+# source
+src
+tests
+index.ts
+package-lock.json
+tslint.json
+tsconfig.json
+.prettierrc
+nestcli.json
+tsconfig.build.json
+.test
+nodemon.json
+
+# github
+.github
+CONTRIBUTING.md
+renovate.json
+
+# ci
+.circleci

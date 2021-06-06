@@ -1,0 +1,4 @@
+{
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "js/ts.implicitProjectConfig.experimentalDecorators": true
+}
