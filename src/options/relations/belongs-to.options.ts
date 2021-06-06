@@ -1,7 +1,6 @@
-import { QueryBuilder } from "../../orm";
+import { RelationFilterOptions } from "./relation-filter.options";
 
-export interface BelongsToOptions {
+export interface BelongsToOptions extends RelationFilterOptions {
     foreignKey?: string;
     ownerKey?: string,
-    filter?: (query: QueryBuilder<any>) => void
 }

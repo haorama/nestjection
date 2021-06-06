@@ -1,20 +1,17 @@
 import { BelongsToOptions } from "../../options";
-import { toSnakeCase } from "../../utils";
 import { Model } from "../model";
 import { BaseRelation } from "./base.relation";
 
 export class BelongsTo extends BaseRelation {
-    options: BelongsToOptions;
+    options?: BelongsToOptions;
 
-    foreignKey: string;
-    ownerKey: string;
-
-    constructor(target: typeof Model, relatedClass: typeof Model, options: BelongsToOptions) {
+    constructor(target: typeof Model, relatedClass: typeof Model, options: BelongsToOptions = {}) {
         super(target, relatedClass);
 
         this.options = options;
 
-        this.setOptions();
+        this.setForeignKey(options.foreignKey);
+        this.setOwnerKey(options.ownerKey);
     }
 
     getRelation() {
@@ -26,10 +23,5 @@ export class BelongsTo extends BaseRelation {
                 from: `${this.relatedClass.tableName}.${this.ownerKey}`
             }
         }
-    }
-
-    setOptions() {
-        this.foreignKey = this.options.foreignKey ?? `${toSnakeCase(this.relatedClass.name)}_id`;
-        this.ownerKey = this.options.ownerKey ?? 'id';
     }
 }
