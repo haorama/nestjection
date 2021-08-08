@@ -22,14 +22,14 @@ export class Relation {
     }
 
     belongsToMany(relatedClass: typeof Model, options: BelongsToManyOptions = {}) {
-        return new BelongsToManyRelation(this.target, relatedClass, options);
+        return new BelongsToManyRelation(this.target, relatedClass, options).getRelation();
     }
 
     hasManyThrough(relatedClass: typeof Model, options: HasManyThroughOptions) {
-        return new HasManyThroughRelation(this.target, relatedClass, options);
+        return new HasManyThroughRelation(this.target, relatedClass, options).getRelation();
     }
 
     morphOne(relatedClass: typeof Model, options: MorphOneOptions) {
-        return new MorphOneRelation(this.target, relatedClass, options);
+        return new MorphOneRelation(this.target, relatedClass, options).getRelation();
     }
 }

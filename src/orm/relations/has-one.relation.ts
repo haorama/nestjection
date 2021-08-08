@@ -14,7 +14,7 @@ export class HasOneRelation extends BaseRelation {
         this.setLocalKey(options.localKey);
     }
 
-    getRelation(): any {
+    getRelation() {
         return {
             modelClass: this.relatedClass,
             relation: this.target.HasOneRelation,
