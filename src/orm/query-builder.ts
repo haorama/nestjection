@@ -121,7 +121,7 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
 
     /** find given idColumn and throw error, only except single attribute */
     findOrFail(id: any) {
-        return this.where(this.modelClass().idColumn, id).firstOrFail();
+        return this.where(this.modelClass().idColumn as string, id).firstOrFail();
     }
 
     async firstOrNew(keys: any) {
