@@ -30,7 +30,7 @@ export class MorphOneRelation extends HasOneRelation {
                 builder.where(this.type, this.target.name);
             },
             join: {
-                ...super.getRelation().from,
+                ...super.getRelation().join,
                 to: `${this.relatedClass.tableName}.${this.id}`
             }
         }
