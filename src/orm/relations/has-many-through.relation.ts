@@ -16,6 +16,8 @@ export class HasManyThroughRelation extends BaseRelation {
         super(target, relatedClass);
 
         this.options = options;
+
+        this.setOptions();
     }
 
     setOptions() {
