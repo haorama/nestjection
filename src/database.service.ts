@@ -5,7 +5,7 @@ import { DatabaseModuleOptions } from "./options";
 
 @Injectable()
 export class DatabaseService implements OnApplicationShutdown {
-    private knex: Knex;
+    knex: Knex;
 
     register(options: DatabaseModuleOptions) {
         this.knex = Knex(options.db);
