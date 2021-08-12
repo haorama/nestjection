@@ -1,6 +1,13 @@
+import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasOneOptions } from "../options";
 import { BaseRelation } from "../orm";
 
 const ASSOCIATIONS_KEY = 'mlazuardy_objection:relations';
+
+export type TAssociationOptions =
+  | BelongsToOptions
+  | HasManyOptions
+  | HasOneOptions
+  | BelongsToManyOptions;
 
 /** Store relation from the model class */
 export function addRelation(target: any, association: BaseRelation) {
@@ -26,4 +33,14 @@ export function getRelations(target: any): BaseRelation[] | undefined {
     if (associations) {
         return [...associations];
     }
+}
+
+export function getPreparedRelationOptions(options?: TAssociationOptions) {
+    let nonBelongsOptions: TAssociationOptions = {};
+
+    if (options) {
+        nonBelongsOptions = { ...options };
+    }
+
+    return nonBelongsOptions;
 }

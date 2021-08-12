@@ -1,4 +1,5 @@
 import { BelongsToManyOptions } from "../../options";
+import { ModelClass } from "../../types";
 import { toSnakeCase } from "../../utils";
 import { Model } from "../model";
 import { BaseRelation } from "./base.relation";
@@ -12,7 +13,7 @@ export class BelongsToManyRelation extends BaseRelation {
 
     options: BelongsToManyOptions;
 
-    constructor(target: typeof Model, relatedClass: typeof Model, options: BelongsToManyOptions = {}) {
+    constructor(target: typeof Model, relatedClass: ModelClass, options: BelongsToManyOptions = {}) {
         super(target, relatedClass);
 
         this.options = options;
@@ -30,7 +31,7 @@ export class BelongsToManyRelation extends BaseRelation {
                     from: `${this.relatedTable}.${this.foreignPivotKey}`,
                     to: `${this.relatedTable}.${this.relatedPivotKey}`
                 },
-                to: `${this.relatedClass.tableName}.id`
+                to: `${this.relatedClass().tableName}.id`
             },
         }
     }

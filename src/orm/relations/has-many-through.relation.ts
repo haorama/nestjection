@@ -1,4 +1,5 @@
 import { HasManyThroughOptions } from "../../options";
+import { ModelClass } from "../../types";
 import { toSnakeCase } from "../../utils";
 import { Model } from "../model";
 import { BaseRelation } from "./base.relation";
@@ -12,7 +13,7 @@ export class HasManyThroughRelation extends BaseRelation {
 
     options: HasManyThroughOptions;
 
-    constructor(target: typeof Model, relatedClass: typeof Model, options: HasManyThroughOptions) {
+    constructor(target: typeof Model, relatedClass: ModelClass, options: HasManyThroughOptions) {
         super(target, relatedClass);
 
         this.options = options;
@@ -43,7 +44,7 @@ export class HasManyThroughRelation extends BaseRelation {
                     from: `${through}.${this.firstKey}`,
                     to: `${through}.${this.secondKey}`
                 },
-                to: `${this.relatedClass.tableName}.id`
+                to: `${this.relatedClass().tableName}.id`
             }
         }
     }

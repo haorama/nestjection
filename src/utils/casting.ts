@@ -1,4 +1,4 @@
-import { ModelCase, TableConvention } from "../unions";
+import { ModelCase, TableConvention } from "../types";
 
 export function getModelTableConvention(convention: TableConvention, value: string) {
     switch (convention) {

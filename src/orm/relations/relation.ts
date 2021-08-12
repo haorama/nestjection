@@ -1,4 +1,5 @@
 import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasManyThroughOptions, HasOneOptions, MorphOneOptions } from "../../options";
+import { ModelClass } from "../../types";
 import { Model } from "../model";
 import { BelongsToManyRelation, BelongsTo, HasManyThroughRelation, HasManyRelation, HasOneRelation, MorphOneRelation } from "./";
 
@@ -9,27 +10,27 @@ export class Relation {
         this.target = target;
     }
 
-    belongsTo(relatedClass: typeof Model, options: BelongsToOptions = {}) {
+    belongsTo(relatedClass: ModelClass, options: BelongsToOptions = {}) {
         return new BelongsTo(this.target, relatedClass, options).getRelation();
     }
 
-    hasMany(relatedClass: typeof Model, options: HasManyOptions = {}) {
+    hasMany(relatedClass: ModelClass, options: HasManyOptions = {}) {
         return new HasManyRelation(this.target, relatedClass, options).getRelation();
     }
 
-    hasOne(relatedClass: typeof Model, options: HasOneOptions = {}) {
+    hasOne(relatedClass: ModelClass, options: HasOneOptions = {}) {
         return new HasOneRelation(this.target, relatedClass, options).getRelation();
     }
 
-    belongsToMany(relatedClass: typeof Model, options: BelongsToManyOptions = {}) {
+    belongsToMany(relatedClass: ModelClass, options: BelongsToManyOptions = {}) {
         return new BelongsToManyRelation(this.target, relatedClass, options).getRelation();
     }
 
-    hasManyThrough(relatedClass: typeof Model, options: HasManyThroughOptions) {
+    hasManyThrough(relatedClass: ModelClass, options: HasManyThroughOptions) {
         return new HasManyThroughRelation(this.target, relatedClass, options).getRelation();
     }
 
-    morphOne(relatedClass: typeof Model, options: MorphOneOptions) {
+    morphOne(relatedClass: ModelClass, options: MorphOneOptions) {
         return new MorphOneRelation(this.target, relatedClass, options).getRelation();
     }
 }

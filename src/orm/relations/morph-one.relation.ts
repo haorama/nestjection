@@ -1,4 +1,5 @@
 import { MorphOneOptions } from "../../options/relations/morph-one.options";
+import { ModelClass } from "../../types";
 import { Model } from "../model";
 import { QueryBuilder } from "../query-builder";
 import { HasOneRelation } from "./has-one.relation";
@@ -10,7 +11,7 @@ export class MorphOneRelation extends HasOneRelation {
 
     options: MorphOneOptions;
 
-    constructor(target: typeof Model, relatedClass: typeof Model, options: MorphOneOptions) {
+    constructor(target: typeof Model, relatedClass: ModelClass, options: MorphOneOptions) {
         super(target, relatedClass, options);
 
         this.options = options;
@@ -31,7 +32,7 @@ export class MorphOneRelation extends HasOneRelation {
             },
             join: {
                 ...super.getRelation().join,
-                to: `${this.relatedClass.tableName}.${this.id}`
+                to: `${this.relatedClass().tableName}.${this.id}`
             }
         }
     }

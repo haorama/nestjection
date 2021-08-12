@@ -5,3 +5,4 @@ export * from './relation-filter.options';
 export * from './belongs-to-many.options';
 export * from './has-many-through.options';
 export * from './morph-one.options';
+export * from './base-relation.options';

@@ -1,11 +1,12 @@
 import { HasOneOptions } from "../../options";
+import { ModelClass } from "../../types";
 import { Model } from "../model";
 import { BaseRelation } from "./base.relation";
 
 export class HasOneRelation extends BaseRelation {
     options?: HasOneOptions;
 
-    constructor(target: typeof Model, relatedClass: typeof Model, options: HasOneOptions = {}) {
+    constructor(target: typeof Model, relatedClass: ModelClass, options: HasOneOptions = {}) {
         super(target, relatedClass);
 
         this.options = options;
@@ -20,7 +21,7 @@ export class HasOneRelation extends BaseRelation {
             relation: this.target.HasOneRelation,
             join: {
                 from: `${this.target.tableName}.${this.localKey}`,
-                to: `${this.relatedClass.tableName}.${this.foreignKey}`
+                to: `${this.relatedClass().tableName}.${this.foreignKey}`
             }
         }
     }

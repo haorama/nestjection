@@ -1,5 +1,5 @@
 import { Model as ObjectionModel, Pojo } from 'objection';
-import { TableConvention } from '../unions';
+import { TableConvention } from '../types';
 import { getModelTableConvention, objExcept } from '../utils';
 import { QueryBuilder } from './query-builder';
 import { Relation } from './relations/relation';

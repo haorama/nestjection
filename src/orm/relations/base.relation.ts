@@ -1,9 +1,10 @@
+import { ModelClass } from "../../types";
 import { toSnakeCase } from "../../utils";
 import { Model } from "../model";
 
 export abstract class BaseRelation {
     target: typeof Model;
-    relatedClass: typeof Model;
+    relatedClass: ModelClass;
 
     foreignKey?: string;
 
@@ -11,7 +12,7 @@ export abstract class BaseRelation {
 
     ownerKey?: string;
 
-    constructor(target: typeof Model, relatedClass: typeof Model) {
+    constructor(target: typeof Model, relatedClass: ModelClass) {
         this.target = target;
         this.relatedClass = relatedClass;
     }
