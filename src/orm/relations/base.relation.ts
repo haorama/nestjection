@@ -1,7 +1,7 @@
 import { toSnakeCase } from "../../utils";
 import { Model } from "../model";
 
-export class BaseRelation {
+export abstract class BaseRelation {
     target: typeof Model;
     relatedClass: typeof Model;
 

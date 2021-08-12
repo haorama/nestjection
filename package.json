@@ -32,13 +32,14 @@
   "peerDependencies": {
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
-    "objection": "^2.0.0",
-    "knex": "^0.21.20"
+    "knex": "^0.21.20",
+    "objection": "^2.0.0"
   },
   "devDependencies": {
     "@nestjs/common": "^7.6.17",
     "@nestjs/core": "^7.6.17",
     "@nestjs/platform-express": "^7.6.17",
+    "@nestjs/platform-fastify": "^8.0.6",
     "@types/node": "^15.3.1",
     "knex": "^0.21.20",
     "mysql2": "^2.2.5",
