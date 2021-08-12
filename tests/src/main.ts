@@ -5,7 +5,7 @@ import { FastifyAdapter } from '@nestjs/platform-fastify';
 async function boot() {
     const app = await NestFactory.create(AppModule, new FastifyAdapter())
 
-    await app.listen(process.env.APP_PORT)
+    await app.listen(3333)
 }
 
 boot();
