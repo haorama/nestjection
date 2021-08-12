@@ -1,5 +1,6 @@
 import { HasOneOptions } from "../../options";
 import { ModelClass } from "../../types";
+import { toSnakeCase } from "../../utils";
 import { Model } from "../model";
 import { BaseRelation } from "./base.relation";
 
@@ -24,5 +25,9 @@ export class HasOneRelation extends BaseRelation {
                 to: `${this.relatedClass().tableName}.${this.foreignKey}`
             }
         }
+    }
+
+    setForeignKey(key?: string) {
+        this.foreignKey = key ?? `${toSnakeCase(this.target.name)}_id`
     }
 }

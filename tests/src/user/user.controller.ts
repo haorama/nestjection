@@ -7,7 +7,6 @@ import { ModelSerializerInterceptor } from '../../../src/interceptors';
 export class UserController {
     @Get()
     async index() {
-        console.log(User.relationMappings)
-        return await User.query();
+        return await User.query().withGraphFetched('otp');
     }
 }
