@@ -1,9 +1,14 @@
+import { RelationMapping } from "objection";
+import { BaseRelationOptions } from "../../options";
 import { ModelClass } from "../../types";
 import { toSnakeCase } from "../../utils";
 import { Model } from "../model";
 
-export abstract class BaseRelation {
+export abstract class BaseRelation<O extends BaseRelationOptions = any> {
+    options?: O;
+
     target: typeof Model;
+
     relatedClass: ModelClass;
 
     foreignKey?: string;
@@ -28,4 +33,6 @@ export abstract class BaseRelation {
     setLocalKey(localKey?: string) {
         this.localKey = localKey ?? 'id';
     }
+
+    abstract getRelation(): RelationMapping<any>
 }

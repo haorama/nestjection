@@ -15,6 +15,4 @@ export class User extends Model {
     static get hiddenFields() {
         return ['password', 'remember_token']
     }
-
-
 }

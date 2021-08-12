@@ -1,42 +1,42 @@
 import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasOneOptions } from "../options";
-import { BaseRelation, Model } from "../orm";
+import { BaseRelation } from "../orm";
 
-const ASSOCIATIONS_KEY = 'mlazuardy_objection:relations';
+const RELATIONNS_KEY = 'mlazuardy_objection:relations';
 
-export type TAssociationOptions =
+export type TRelationOptions =
   | BelongsToOptions
   | HasManyOptions
   | HasOneOptions
   | BelongsToManyOptions;
 
 /** Store relation from the model class */
-export function addRelation(target: Model, association: BaseRelation) {
-    let associations = getRelations(target);
+export function addRelation(target: any, relation: BaseRelation) {
+    let relations = getRelations(target.constructor);
 
-    if (!associations) {
-        associations = [];
+    if (!relations) {
+        relations = [];
     }
 
-    associations.push(association);
+    relations.push(relation);
 
-    setRelations(target, associations);
+    setRelations(target.constructor, relations);
 }
 
-export function setRelations(target: any, associations: BaseRelation[]) {
-    Reflect.defineMetadata(ASSOCIATIONS_KEY, associations, target);
+export function setRelations(target: any, relations: BaseRelation[]) {
+    Reflect.defineMetadata(RELATIONNS_KEY, relations, target.constructor);
 }
 
 /** Return relations metadata from model */
 export function getRelations(target: any): BaseRelation[] | undefined {
-    const associations = Reflect.getMetadata(ASSOCIATIONS_KEY, target);
+    const relations = Reflect.getMetadata(RELATIONNS_KEY, target.constructor);
 
-    if (associations) {
-        return [...associations];
+    if (relations) {
+        return [...relations];
     }
 }
 
-export function getPreparedRelationOptions(options?: TAssociationOptions) {
-    let nonBelongsOptions: TAssociationOptions = {};
+export function getPreparedRelationOptions(options?: TRelationOptions) {
+    let nonBelongsOptions: TRelationOptions = {};
 
     if (options) {
         nonBelongsOptions = { ...options };

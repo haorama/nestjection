@@ -7,10 +7,8 @@ export function HasOne( modelClass: ModelClass, options?: HasOneOptions): Functi
     return (target: any, propertyName: string) => {
         const hasOneOptions: HasOneOptions = getPreparedRelationOptions(options);
 
-        target.constructor.anjay = 'mantap'
-
         if (!hasOneOptions.as) hasOneOptions.as = propertyName;
 
-        addRelation(target, new HasOneRelation(target, modelClass , hasOneOptions));
+        addRelation(target, new HasOneRelation(target.constructor, modelClass, hasOneOptions));
     };
 }
