@@ -68,10 +68,6 @@ export class Model extends ObjectionModel {
         return json;
     }
 
-    static get relation() {
-        return new Relation(this)
-    }
-
     static get relationMappings() {
         const relations = getRelations(this)
 
