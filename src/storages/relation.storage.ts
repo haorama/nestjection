@@ -1,5 +1,5 @@
 import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasOneOptions } from "../options";
-import { BaseRelation } from "../orm";
+import { BaseRelation, Model } from "../orm";
 
 const ASSOCIATIONS_KEY = 'mlazuardy_objection:relations';
 
@@ -10,7 +10,7 @@ export type TAssociationOptions =
   | BelongsToManyOptions;
 
 /** Store relation from the model class */
-export function addRelation(target: any, association: BaseRelation) {
+export function addRelation(target: Model, association: BaseRelation) {
     let associations = getRelations(target);
 
     if (!associations) {

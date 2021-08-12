@@ -18,7 +18,7 @@ export abstract class BaseRelation {
     }
 
     setForeignKey(foreignKey?: string) {
-        this.foreignKey = foreignKey ?? `${toSnakeCase(this.relatedClass.name)}_id`;
+        this.foreignKey = foreignKey ?? `${toSnakeCase(this.relatedClass().name)}_id`;
     }
 
     setOwnerKey(ownerKey?: string) {
