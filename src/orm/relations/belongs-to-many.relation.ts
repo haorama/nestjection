@@ -13,7 +13,7 @@ export class BelongsToManyRelation extends BaseRelation {
 
     options: BelongsToManyOptions;
 
-    constructor(target: typeof Model, relatedClass: ModelClass, options: BelongsToManyOptions = {}) {
+    constructor(target: Model, relatedClass: ModelClass, options: BelongsToManyOptions = {}) {
         super(target, relatedClass);
 
         this.options = options;
@@ -24,21 +24,23 @@ export class BelongsToManyRelation extends BaseRelation {
     getRelation() {
         return {
             modelClass: this.relatedClass,
-            relation: this.target.ManyToManyRelation,
+            relation: Model.ManyToManyRelation,
             join: {
-                from: `${this.target.tableName}.id`,
+                // from: `${this.target.tableName}.id`,
+                from: '',
                 through: {
                     from: `${this.relatedTable}.${this.foreignPivotKey}`,
                     to: `${this.relatedTable}.${this.relatedPivotKey}`
                 },
-                to: `${this.relatedClass().tableName}.id`
+                // to: `${this.relatedClass().tableName}.id`,
+                to: ''
             },
         }
     }
 
     setOptions() {
-        this.relatedTable = this.options.relatedTable ?? `${toSnakeCase(this.relatedClass.name)}_${toSnakeCase(this.target.name)}`
-        this.foreignPivotKey = this.options.foreignPivotKey ?? `${toSnakeCase(this.target.name)}_id`;
+        // this.relatedTable = this.options.relatedTable ?? `${toSnakeCase(this.relatedClass.name)}_${toSnakeCase(this.target.name)}`
+        // this.foreignPivotKey = this.options.foreignPivotKey ?? `${toSnakeCase(this.target.name)}_id`;
         this.relatedPivotKey = this.options.relatedPivotKey ?? `${toSnakeCase(this.relatedClass.name)}_id`;
     }
 }

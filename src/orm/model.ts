@@ -3,7 +3,6 @@ import { getRelations } from '../storages/relation.storage';
 import { TableConvention } from '../types';
 import { getModelTableConvention, objExcept } from '../utils';
 import { QueryBuilder } from './query-builder';
-import { Relation } from './relations/relation';
 
 export class Model extends ObjectionModel {
     QueryBuilderType!: QueryBuilder<this>;
@@ -71,7 +70,7 @@ export class Model extends ObjectionModel {
     static get relationMappings() {
         const relations = getRelations(this)
 
-        if (!relations.length) {
+        if (!relations || !relations.length) {
             return null;
         }
 

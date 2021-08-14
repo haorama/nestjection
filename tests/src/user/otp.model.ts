@@ -1,4 +1,6 @@
+import { BelongsTo } from "../../../src/decorators";
 import { Model } from "../../../src/orm";
+import { User } from "./user.model";
 
 export class Otp extends Model {
     static get tableName() {
@@ -6,4 +8,11 @@ export class Otp extends Model {
     }
 
     id: number;
+
+    @BelongsTo(() => User)
+    user: User
+
+    static get hiddenFields() {
+        return ['code']
+    }
 }

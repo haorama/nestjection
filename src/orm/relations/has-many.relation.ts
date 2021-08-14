@@ -6,7 +6,7 @@ import { BaseRelation } from "./base.relation";
 export class HasManyRelation extends BaseRelation {
     options?: HasManyOptions;
 
-    constructor(target: typeof Model, relatedClass: ModelClass, options: HasManyOptions = {}) {
+    constructor(target: Model, relatedClass: ModelClass, options: HasManyOptions = {}) {
         super(target, relatedClass);
 
         this.options = options;
@@ -18,10 +18,12 @@ export class HasManyRelation extends BaseRelation {
     getRelation() {
         return {
             modelClass: this.relatedClass,
-            relation: this.target.HasManyRelation,
+            relation: Model.HasManyRelation,
             join: {
-                from: `${this.target.tableName}.${this.localKey}`,
-                to: `${this.relatedClass().tableName}.${this.foreignKey}`
+                // from: `${this.target.tableName}.${this.localKey}`,
+                from: '',
+                // to: `${this.relatedClass().tableName}.${this.foreignKey}`,
+                to: ''
             }
         }
     }

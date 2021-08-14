@@ -1,10 +1,7 @@
-import { Model } from "objection";
+import { Model } from "../orm";
 
-export type ModelType = new (
-    values?: any,
-    options?: any
-  ) => typeof Model;
+export type ModelType = new () => Model;
 
 export type ModelCase = 'number' | 'float' | 'json' | 'string';
 
-export type ModelClass = (returns?: void) => typeof Model;
+export type ModelClass = (returns?: void) => ModelType;

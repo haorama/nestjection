@@ -7,7 +7,7 @@ import { Model } from "../model";
 export abstract class BaseRelation<O extends BaseRelationOptions = any> {
     options?: O;
 
-    target: typeof Model;
+    target: Model;
 
     relatedClass: ModelClass;
 
@@ -17,13 +17,13 @@ export abstract class BaseRelation<O extends BaseRelationOptions = any> {
 
     ownerKey?: string;
 
-    constructor(target: typeof Model, relatedClass: ModelClass) {
+    constructor(target: Model, relatedClass: ModelClass) {
         this.target = target;
         this.relatedClass = relatedClass;
     }
 
     setForeignKey(foreignKey?: string) {
-        this.foreignKey = foreignKey ?? `${toSnakeCase(this.relatedClass().name)}_id`;
+        // this.foreignKey = foreignKey ?? `${toSnakeCase(this.relatedClass().name)}_id`;
     }
 
     setOwnerKey(ownerKey?: string) {
@@ -35,4 +35,8 @@ export abstract class BaseRelation<O extends BaseRelationOptions = any> {
     }
 
     abstract getRelation(): RelationMapping<any>
+
+    get getTarget(): typeof Model {
+        return this.target.constructor as any;
+    }
 }

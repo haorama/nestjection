@@ -1,17 +1,17 @@
 import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasManyThroughOptions, HasOneOptions, MorphOneOptions } from "../../options";
 import { ModelClass } from "../../types";
 import { Model } from "../model";
-import { BelongsToManyRelation, BelongsTo, HasManyThroughRelation, HasManyRelation, HasOneRelation, MorphOneRelation } from "./";
+import { BelongsToManyRelation, BelongsToRelation, HasManyThroughRelation, HasManyRelation, HasOneRelation, MorphOneRelation } from "./";
 
 export class Relation {
-    target: typeof Model;
+    target: Model;
 
-    constructor(target: typeof Model) {
+    constructor(target: Model) {
         this.target = target;
     }
 
     belongsTo(relatedClass: ModelClass, options: BelongsToOptions = {}) {
-        return new BelongsTo(this.target, relatedClass, options).getRelation();
+        return new BelongsToRelation(this.target, relatedClass, options).getRelation();
     }
 
     hasMany(relatedClass: ModelClass, options: HasManyOptions = {}) {

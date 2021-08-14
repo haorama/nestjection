@@ -7,7 +7,7 @@ import { BaseRelation } from "./base.relation";
 export class HasOneRelation extends BaseRelation {
     options?: HasOneOptions;
 
-    constructor(target: typeof Model, relatedClass: ModelClass, options: HasOneOptions = {}) {
+    constructor(target: Model, relatedClass: ModelClass, options: HasOneOptions = {}) {
         super(target, relatedClass);
 
         this.options = options;
@@ -19,15 +19,17 @@ export class HasOneRelation extends BaseRelation {
     getRelation() {
         return {
             modelClass: this.relatedClass,
-            relation: this.target.HasOneRelation,
+            relation: Model.HasOneRelation,
             join: {
-                from: `${this.target.tableName}.${this.localKey}`,
-                to: `${this.relatedClass().tableName}.${this.foreignKey}`
+                // from: `${this.target.tableName}.${this.localKey}`,
+                from :'id',
+                // to: `${this.relatedClass().tableName}.${this.foreignKey}`,
+                to: 'a'
             }
         }
     }
 
     setForeignKey(key?: string) {
-        this.foreignKey = key ?? `${toSnakeCase(this.target.name)}_id`
+        // this.foreignKey = key ?? `${toSnakeCase(this.target.name)}_id`
     }
 }
