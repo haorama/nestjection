@@ -1,8 +1,8 @@
 import { Model as ObjectionModel, Pojo } from 'objection';
-import { TableConvention } from '../unions';
+import { getRelations } from '../storages/relation.storage';
+import { TableConvention } from '../types';
 import { getModelTableConvention, objExcept } from '../utils';
 import { QueryBuilder } from './query-builder';
-import { Relation } from './relations/relation';
 
 export class Model extends ObjectionModel {
     QueryBuilderType!: QueryBuilder<this>;
@@ -67,7 +67,31 @@ export class Model extends ObjectionModel {
         return json;
     }
 
-    static get relation() {
-        return new Relation(this)
+    static boot() {
+        this.booted = true;
+
+        const model = new this();
+
+        this.setRelations(model)
+    }
+
+    private static setRelations(model: Model) {
+        const relations = getRelations(model)
+
+        if (!relations || !relations.length) {
+            return null;
+        }
+
+        let mappings: any = {};
+
+        if (this.relationMappings && typeof this.relationMappings === 'function') {
+            mappings = {...this.relationMappings()}
+        }
+
+        relations.map(relation => {
+            mappings[relation.options.as] = relation.getRelation();
+        })
+
+        this.relationMappings = () => mappings;
     }
 }

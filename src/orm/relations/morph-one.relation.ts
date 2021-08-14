@@ -1,37 +1,39 @@
 import { MorphOneOptions } from "../../options/relations/morph-one.options";
+import { ModelClass } from "../../types";
 import { Model } from "../model";
 import { QueryBuilder } from "../query-builder";
 import { HasOneRelation } from "./has-one.relation";
 
 export class MorphOneRelation extends HasOneRelation {
-    morphName: string;
+    options: MorphOneOptions;
+
     type?: string;
     id?: string;
 
-    options: MorphOneOptions;
-
-    constructor(target: typeof Model, relatedClass: typeof Model, options: MorphOneOptions) {
+    constructor(target: Model, relatedClass: ModelClass, options: MorphOneOptions) {
         super(target, relatedClass, options);
 
         this.options = options;
-
-        this.setMorphAttribute();
     }
 
     setMorphAttribute() {
-        this.type = this.options.type ?? `${this.morphName}_type`;
-        this.id = this.options.id ?? `${this.morphName}_id`;
+        this.type = this.options.type ?? `${this.options.morphName}_type`;
+        this.id = this.options.id ?? `${this.options.morphName}_id`;
     }
 
     getRelation() {
+        this.setMorphAttribute();
+
         return {
             ...super.getRelation(),
             filter: (builder: QueryBuilder<any>) => {
-                builder.where(this.type, this.target.name);
+                const typeValue = this.options.typeValue || this.target.name;
+
+                builder.where(this.type, typeValue);
             },
             join: {
                 ...super.getRelation().join,
-                to: `${this.relatedClass.tableName}.${this.id}`
+                to: `${this.related.tableName}.${this.id}`,
             }
         }
     }
