@@ -17,18 +17,18 @@ export class HasManyThroughRelation extends BaseRelation {
         super(target, relatedClass);
 
         this.options = options;
-
-        this.setOptions();
     }
 
     setOptions() {
-        // this.firstKey = this.options.firstKey ?? `${toSnakeCase(this.target.name)}_id`;
-        this.secondKey = this.options.secondKey ?? `${toSnakeCase(this.relatedClass.name)}_id`;
+        this.firstKey = this.options.firstKey ?? `${toSnakeCase(this.target.name)}_id`;
+        this.secondKey = this.options.secondKey ?? `${toSnakeCase(this.related.name)}_id`;
 
         this.through = this.options.through;
     }
 
     getRelation() {
+        this.setOptions();
+
         let through = this.through;
 
         if (typeof through != 'string') {
@@ -39,14 +39,12 @@ export class HasManyThroughRelation extends BaseRelation {
             modelClass: this.relatedClass,
             relation: Model.ManyToManyRelation,
             join: {
-                // from: `${this.target.tableName}.id`,
-                from: '',
+                from: `${this.target.tableName}.id`,
                 through: {
                     from: `${through}.${this.firstKey}`,
                     to: `${through}.${this.secondKey}`
                 },
-                // to: `${this.relatedClass().tableName}.id`,
-                to: ''
+                to: `${this.related.tableName}.id`,
             }
         }
     }

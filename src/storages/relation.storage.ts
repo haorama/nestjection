@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasOneOptions, MorphOneOptions } from "../options";
+import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasManyThroughOptions, HasOneOptions, MorphOneOptions } from "../options";
 import { BaseRelation } from "../orm";
 
 const RELATIONS_KEY = 'mlazuardy_objection:relations';
@@ -10,6 +10,7 @@ export type TRelationOptions =
   | HasOneOptions
   | BelongsToManyOptions
   | MorphOneOptions
+  | HasManyThroughOptions
 
 /** Store relation from the model class */
 export function addRelation(target: any, relation: BaseRelation) {
