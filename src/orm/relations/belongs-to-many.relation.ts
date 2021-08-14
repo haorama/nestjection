@@ -17,30 +17,28 @@ export class BelongsToManyRelation extends BaseRelation {
         super(target, relatedClass);
 
         this.options = options;
-
-        this.setOptions();
     }
 
     getRelation() {
+        this.setOptions();
+
         return {
             modelClass: this.relatedClass,
             relation: Model.ManyToManyRelation,
             join: {
-                // from: `${this.target.tableName}.id`,
-                from: '',
+                from: `${this.target.tableName}.id`,
                 through: {
                     from: `${this.relatedTable}.${this.foreignPivotKey}`,
                     to: `${this.relatedTable}.${this.relatedPivotKey}`
                 },
-                // to: `${this.relatedClass().tableName}.id`,
-                to: ''
+                to: `${this.related.tableName}.id`,
             },
         }
     }
 
     setOptions() {
-        // this.relatedTable = this.options.relatedTable ?? `${toSnakeCase(this.relatedClass.name)}_${toSnakeCase(this.target.name)}`
-        // this.foreignPivotKey = this.options.foreignPivotKey ?? `${toSnakeCase(this.target.name)}_id`;
-        this.relatedPivotKey = this.options.relatedPivotKey ?? `${toSnakeCase(this.relatedClass.name)}_id`;
+        this.relatedTable = this.options.relatedTable ?? `${toSnakeCase(this.related.name)}_${toSnakeCase(this.target.name)}`
+        this.foreignPivotKey = this.options.foreignPivotKey ?? `${toSnakeCase(this.target.name)}_id`;
+        this.relatedPivotKey = this.options.relatedPivotKey ?? `${toSnakeCase(this.related.name)}_id`;
     }
 }

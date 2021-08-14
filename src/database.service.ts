@@ -26,7 +26,9 @@ export class DatabaseService implements OnApplicationShutdown, OnApplicationBoot
     onApplicationBootstrap() {
         const models = this.getModels();
 
-        models.map(model => model.boot())
+        models.map((model: any) => {
+            if (typeof model.boot === 'function') model.boot()
+        })
     }
 
     protected getModels() {

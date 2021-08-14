@@ -7,6 +7,6 @@ import { ModelSerializerInterceptor } from '../../../src/interceptors';
 export class UserController {
     @Get()
     async index() {
-        return await User.query().withGraphFetched('orders')
+        return await User.query().withGraphFetched('restaurants')
     }
 }
