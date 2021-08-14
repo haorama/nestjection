@@ -7,7 +7,7 @@ import { Model } from "../model";
 export abstract class BaseRelation<O extends BaseRelationOptions = any> {
     options?: O;
 
-    target: Model;
+    targetClass: Model;
 
     relatedClass: ModelClass;
 
@@ -19,8 +19,8 @@ export abstract class BaseRelation<O extends BaseRelationOptions = any> {
 
     protected inverse: boolean = false;
 
-    constructor(target: Model, relatedClass: ModelClass) {
-        this.target = target;
+    constructor(targetClass: Model, relatedClass: ModelClass) {
+        this.targetClass = targetClass;
         this.relatedClass = relatedClass;
     }
 
@@ -38,21 +38,21 @@ export abstract class BaseRelation<O extends BaseRelationOptions = any> {
 
     abstract getRelation(): RelationMapping<any>
 
-    get getTarget(): Objection.ModelClass<any> {
-        return this.target.$modelClass
+    get target(): Objection.ModelClass<any> {
+        return this.targetClass.$modelClass
     }
 
-    get getRelated(): Objection.ModelClass<any> {
+    get related(): Objection.ModelClass<any> {
         return (this.relatedClass() as any)
     }
 
     getDefaultFK() {
-        if (this.getRelated) {
+        if (this.related) {
             if (this.inverse) {
-                return `${toSnakeCase(this.getRelated.name)}_id`
+                return `${toSnakeCase(this.related.name)}_id`
             }
 
-            return `${toSnakeCase(this.getTarget.name)}_id`
+            return `${toSnakeCase(this.related.name)}_id`
         }
     }
 }

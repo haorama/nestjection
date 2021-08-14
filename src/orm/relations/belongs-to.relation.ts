@@ -21,8 +21,8 @@ export class BelongsToRelation extends BaseRelation {
             modelClass: this.relatedClass,
             relation: Model.BelongsToOneRelation,
             join: {
-                to: `${this.getTarget.tableName}.${this.foreignKey}`,
-                from: `${this.getRelated.tableName}.${this.ownerKey}`,
+                to: `${this.target.tableName}.${this.foreignKey}`,
+                from: `${this.related.tableName}.${this.ownerKey}`,
             }
         }
     }

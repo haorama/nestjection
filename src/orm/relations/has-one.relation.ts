@@ -20,8 +20,8 @@ export class HasOneRelation extends BaseRelation {
             modelClass: this.relatedClass,
             relation: Model.HasOneRelation,
             join: {
-                from: `${this.getTarget.tableName}.${this.localKey}`,
-                to: `${this.getRelated.tableName}.${this.foreignKey}`,
+                from: `${this.target.tableName}.${this.localKey}`,
+                to: `${this.related.tableName}.${this.foreignKey}`,
             }
         }
     }
