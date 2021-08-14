@@ -11,25 +11,23 @@ export class HasOneRelation extends BaseRelation {
         super(target, relatedClass);
 
         this.options = options;
-
-        this.setForeignKey(options.foreignKey);
-        this.setLocalKey(options.localKey);
     }
 
     getRelation() {
+        this.setForeignKey(this.options.foreignKey);
+        this.setLocalKey(this.options.localKey);
+
         return {
             modelClass: this.relatedClass,
             relation: Model.HasOneRelation,
             join: {
-                // from: `${this.target.tableName}.${this.localKey}`,
-                from :'id',
-                // to: `${this.relatedClass().tableName}.${this.foreignKey}`,
-                to: 'a'
+                from: `${this.getTarget.tableName}.${this.localKey}`,
+                to: `${this.getRelated.tableName}.${this.foreignKey}`,
             }
         }
     }
 
     setForeignKey(key?: string) {
-        // this.foreignKey = key ?? `${toSnakeCase(this.target.name)}_id`
+        this.foreignKey = key ?? `${toSnakeCase(this.getTarget.name)}_id`
     }
 }

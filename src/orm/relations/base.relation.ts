@@ -1,4 +1,4 @@
-import { RelationMapping } from "objection";
+import Objection,{ RelationMapping } from "objection";
 import { BaseRelationOptions } from "../../options";
 import { ModelClass } from "../../types";
 import { toSnakeCase } from "../../utils";
@@ -23,7 +23,7 @@ export abstract class BaseRelation<O extends BaseRelationOptions = any> {
     }
 
     setForeignKey(foreignKey?: string) {
-        // this.foreignKey = foreignKey ?? `${toSnakeCase(this.relatedClass().name)}_id`;
+        this.foreignKey = foreignKey ?? this.getDefaultFK()
     }
 
     setOwnerKey(ownerKey?: string) {
@@ -36,7 +36,17 @@ export abstract class BaseRelation<O extends BaseRelationOptions = any> {
 
     abstract getRelation(): RelationMapping<any>
 
-    get getTarget(): typeof Model {
-        return this.target.constructor as any;
+    get getTarget(): Objection.ModelClass<any> {
+        return this.target.$modelClass
+    }
+
+    get getRelated(): Objection.ModelClass<any> {
+        return (this.relatedClass() as any)
+    }
+
+    getDefaultFK() {
+        if (this.getRelated) {
+            return `${toSnakeCase(this.getRelated.name)}_id`
+        }
     }
 }

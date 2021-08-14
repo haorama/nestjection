@@ -67,8 +67,16 @@ export class Model extends ObjectionModel {
         return json;
     }
 
-    static get relationMappings() {
-        const relations = getRelations(this)
+    static boot() {
+        this.booted = true;
+
+        const model = new this();
+
+        this.setRelations(model)
+    }
+
+    private static setRelations(model: Model) {
+        const relations = getRelations(model)
 
         if (!relations || !relations.length) {
             return null;
@@ -80,6 +88,6 @@ export class Model extends ObjectionModel {
             mappings[relation.options.as] = relation.getRelation();
         })
 
-        return mappings;
+        this.relationMappings = mappings;
     }
 }

@@ -45,3 +45,28 @@ export function getPreparedRelationOptions(options?: TRelationOptions) {
 
     return nonBelongsOptions;
 }
+
+// Relation.ts
+let relationMap = new WeakMap<any, Map<string, () => Function>>();
+export function Relation(model: () => Function) {
+  return function (target, propertyName) {
+    // Calling `model` here may not give you the value, you need to
+    // store it somewhere and evaluate it later...
+    let map = relationMap.get(target);
+    if (!map) relationMap.set(target, map = new Map<string, () => Function>());
+    map.set(propertyName, model);
+  }
+}
+
+export function getRelation(target, propertyName) {
+  while (target) {
+    let map = relationMap.get(target);
+    if (map) {
+      let model = map.get(propertyName);
+      if (model) {
+        return model();
+      }
+    }
+    target = Object.getPrototypeOf(target);
+  }
+}

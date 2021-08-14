@@ -5,4 +5,6 @@ export interface DatabaseModuleOptions {
 
     /** Knex Connection Configuration*/
     db: Knex.Config;
+
+    models?: any;
 }

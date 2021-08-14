@@ -5,7 +5,10 @@ import { DB_CONNECTION } from "./connection";
 
 @Module({
     imports: [
-        DatabaseModule.forRoot({db: DB_CONNECTION}),
+        DatabaseModule.forRoot({
+            db: DB_CONNECTION,
+            models: ['./tests/dist/**/*.model{.ts,.js}']
+        }),
         UserModule,
     ]
 })

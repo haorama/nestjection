@@ -10,20 +10,18 @@ export class BelongsToRelation extends BaseRelation {
         super(target, relatedClass);
 
         this.options = options;
-
-        this.setForeignKey(options.foreignKey);
-        this.setOwnerKey(options.ownerKey);
     }
 
     getRelation() {
+        this.setForeignKey(this.options.foreignKey);
+        this.setOwnerKey(this.options.ownerKey);
+
         return {
             modelClass: this.relatedClass,
             relation: Model.BelongsToOneRelation,
             join: {
-                // to: `${this.target.tableName}.${this.foreignKey}`,
-                to: 'd',
-                // from: `${this.relatedClass().tableName}.${this.ownerKey}`,
-                from: 'a'
+                to: `${this.getTarget.tableName}.${this.foreignKey}`,
+                from: `${this.getRelated.tableName}.${this.ownerKey}`,
             }
         }
     }
