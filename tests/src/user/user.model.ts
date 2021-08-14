@@ -1,8 +1,8 @@
 import { Model } from "../../../src/orm";
-import { Otp } from "./otp.model";
 import { HasMany, HasOne, BelongsToMany } from '../../../src/decorators';
-import { Order } from "../order/order.model";
-import { Restaurant } from "../restaurant/restaurant.model";
+import { Otp } from "./otp.model";
+import { Order } from "./order.model";
+import { Restaurant } from "./restaurant.model";
 
 export class User extends Model {
     id: number;

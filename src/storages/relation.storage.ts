@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasOneOptions } from "../options";
+import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasOneOptions, MorphOneOptions } from "../options";
 import { BaseRelation } from "../orm";
 
 const RELATIONS_KEY = 'mlazuardy_objection:relations';
@@ -8,7 +8,8 @@ export type TRelationOptions =
   | BelongsToOptions
   | HasManyOptions
   | HasOneOptions
-  | BelongsToManyOptions;
+  | BelongsToManyOptions
+  | MorphOneOptions
 
 /** Store relation from the model class */
 export function addRelation(target: any, relation: BaseRelation) {
@@ -37,11 +38,11 @@ export function getRelations(target: any): BaseRelation[] | undefined {
 }
 
 export function getPreparedRelationOptions(options?: TRelationOptions) {
-    let nonBelongsOptions: TRelationOptions = {};
+    let relationOptions: TRelationOptions = {};
 
     if (options) {
-        nonBelongsOptions = { ...options };
+        relationOptions = { ...options };
     }
 
-    return nonBelongsOptions;
+    return relationOptions;
 }
