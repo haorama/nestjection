@@ -84,10 +84,14 @@ export class Model extends ObjectionModel {
 
         let mappings: any = {};
 
+        if (this.relationMappings && typeof this.relationMappings === 'function') {
+            mappings = {...this.relationMappings()}
+        }
+
         relations.map(relation => {
             mappings[relation.options.as] = relation.getRelation();
         })
 
-        this.relationMappings = mappings;
+        this.relationMappings = () => mappings;
     }
 }

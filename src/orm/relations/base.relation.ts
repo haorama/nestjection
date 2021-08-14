@@ -17,6 +17,8 @@ export abstract class BaseRelation<O extends BaseRelationOptions = any> {
 
     ownerKey?: string;
 
+    protected inverse: boolean = false;
+
     constructor(target: Model, relatedClass: ModelClass) {
         this.target = target;
         this.relatedClass = relatedClass;
@@ -46,7 +48,11 @@ export abstract class BaseRelation<O extends BaseRelationOptions = any> {
 
     getDefaultFK() {
         if (this.getRelated) {
-            return `${toSnakeCase(this.getRelated.name)}_id`
+            if (this.inverse) {
+                return `${toSnakeCase(this.getRelated.name)}_id`
+            }
+
+            return `${toSnakeCase(this.getTarget.name)}_id`
         }
     }
 }

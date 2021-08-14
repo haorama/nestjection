@@ -1,6 +1,7 @@
 import { Model } from "../../../src/orm";
 import { Otp } from "./otp.model";
-import { HasOne } from '../../../src/decorators';
+import { HasMany, HasOne } from '../../../src/decorators';
+import { Order } from "../order/order.model";
 
 export class User extends Model {
     id: number;
@@ -11,6 +12,9 @@ export class User extends Model {
 
     @HasOne(() => Otp)
     otp: Otp;
+
+    @HasMany(() => Order)
+    orders: Order
 
     static get hiddenFields() {
         return ['password', 'remember_token']

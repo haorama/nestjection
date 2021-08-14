@@ -8,6 +8,7 @@ export class BelongsToRelation extends BaseRelation {
 
     constructor(target: Model, relatedClass: ModelClass, options: BelongsToOptions = {}) {
         super(target, relatedClass);
+        this.inverse = true;
 
         this.options = options;
     }

@@ -10,20 +10,18 @@ export class HasManyRelation extends BaseRelation {
         super(target, relatedClass);
 
         this.options = options;
-
-        this.setForeignKey(options.foreignKey);
-        this.setLocalKey(options.localKey)
     }
 
     getRelation() {
+        this.setForeignKey(this.options.foreignKey);
+        this.setLocalKey(this.options.localKey)
+
         return {
             modelClass: this.relatedClass,
             relation: Model.HasManyRelation,
             join: {
-                // from: `${this.target.tableName}.${this.localKey}`,
-                from: '',
-                // to: `${this.relatedClass().tableName}.${this.foreignKey}`,
-                to: ''
+                from: `${this.getTarget.tableName}.${this.localKey}`,
+                to: `${this.getRelated.tableName}.${this.foreignKey}`,
             }
         }
     }
