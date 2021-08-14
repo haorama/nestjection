@@ -13,6 +13,7 @@ nestcli.json
 tsconfig.build.json
 .test
 nodemon.json
+.env
 
 # github
 .github
