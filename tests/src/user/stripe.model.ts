@@ -6,4 +6,8 @@ export class Stripe extends Model {
     }
 
     id: number;
+
+    type: string;
+
+    account_id: string
 }
