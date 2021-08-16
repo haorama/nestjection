@@ -31,6 +31,9 @@ export class MorphOneRelation extends HasOneRelation {
 
                 builder.where(this.type, typeValue);
             },
+            beforeInsert: (model: any) => {
+                model[this.type] = this.target.name;
+            },
             join: {
                 ...super.getRelation().join,
                 to: `${this.related.tableName}.${this.id}`,
