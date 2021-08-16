@@ -9,9 +9,6 @@ export class Restaurant extends Model {
     @BelongsToMany(() => User)
     users: User[]
 
-    @MorphOne(() => Stripe, {
-        morphName: 'stripeable',
-        typeValue: 'App\\Restaurant'
-    })
+    @MorphOne(() => Stripe, 'stripeable')
     stripe: Stripe;
 }
