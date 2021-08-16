@@ -1,6 +1,6 @@
 {
   "name": "@mlazuardy/nestjection",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Nestjs integration for Objection+Knex",
   "scripts": {
     "prepublish": "tsc",
