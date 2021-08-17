@@ -32,8 +32,8 @@
   },
   "homepage": "https://github.com/mlazuardy/nestjection#readme",
   "peerDependencies": {
-    "@nestjs/common": "^7.0.0|^8.0.0",
-    "@nestjs/core": "^7.0.0|^8.0.0",
+    "@nestjs/common": "^7.0.0 || ^8.0.0",
+    "@nestjs/core": "^7.0.0 || ^8.0.0",
     "knex": "^0.21.20",
     "objection": "^2.0.0"
   },
