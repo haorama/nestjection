@@ -52,7 +52,7 @@ export abstract class BaseRelation<O extends BaseRelationOptions = any> {
                 return `${toSnakeCase(this.related.name)}_id`
             }
 
-            return `${toSnakeCase(this.related.name)}_id`
+            return `${toSnakeCase(this.target.name)}_id`
         }
     }
 }
