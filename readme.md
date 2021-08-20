@@ -213,3 +213,7 @@ export class User extends Model {
 
 ### Contributing
 Contributing are always open since im not an expert to create a package, creating test case or writing english documentation. I'm Happy that you guys can help me improving this package.
+
+## Changelog
+- V0.2.2
+ - Fixed default has many foreign key
