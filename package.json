@@ -1,12 +1,13 @@
 {
   "name": "@mlazuardy/nestjection",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Nestjs integration for Objection+Knex",
   "scripts": {
     "prepublish": "tsc",
     "build": "rimraf -rf dist && tsc -p tsconfig.json",
     "build:dev": "tsc -p tsconfig.json",
     "publish:npm": "npm publish --access public",
+    "build:watch": "tsc -p tsconfig.json --watch",
     "prepublish:npm": "npm run build",
     "dev": "nest start --path ./tests/tsconfig.json --config ./tests/nest-cli.json --watch"
   },
@@ -31,8 +32,8 @@
   },
   "homepage": "https://github.com/mlazuardy/nestjection#readme",
   "peerDependencies": {
-    "@nestjs/common": "^7.0.0|^8.0.0",
-    "@nestjs/core": "^7.0.0|^8.0.0",
+    "@nestjs/common": "^7.0.0 || ^8.0.0",
+    "@nestjs/core": "^7.0.0 || ^8.0.0",
     "knex": "^0.21.20",
     "objection": "^2.0.0"
   },
