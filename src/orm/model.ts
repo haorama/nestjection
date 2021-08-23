@@ -1,14 +1,13 @@
 import { Model as ObjectionModel, Pojo } from 'objection';
 import { getRelations } from '../storages/relation.storage';
 import { TableConvention } from '../types';
-import { getModelTableConvention, objExcept } from '../utils';
+import { objExcept } from '../utils';
 import { QueryBuilder } from './query-builder';
 
 export class Model extends ObjectionModel {
     QueryBuilderType!: QueryBuilder<this>;
 
     static booted = false;
-    static tableConvention: TableConvention = 'snake_case_plural';
 
     constructor(attrs: object = {}) {
         super();
@@ -66,10 +65,6 @@ export class Model extends ObjectionModel {
 
     private static prepareModel(model: Model) {
         this.setRelations(model);
-
-        if (!this.tableName) {
-            this.tableName = getModelTableConvention(this.tableConvention, this.name)
-        }
     }
 
     private static setRelations(model: Model) {
