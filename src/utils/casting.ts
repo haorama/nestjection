@@ -1,5 +1,6 @@
 import { ModelCase, TableConvention } from "../types";
 
+/** @deprecated */
 export function getModelTableConvention(convention: TableConvention, value: string) {
     switch (convention) {
         case 'snake_case':
@@ -17,7 +18,7 @@ export function toSnakeCase(value: string) {
         .join('_');
 }
 
-function toSnakePluralCase(value: string) {
+export function toSnakePluralCase(value: string) {
     return toSnakeCase(value) + 's';
 }
 

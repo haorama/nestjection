@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { MODELS_KEY } from '../constants';
 import { TableOptions } from '../interfaces';
-import { getModelTableConvention } from '../utils';
+import { toSnakePluralCase } from '../utils';
 
 type TTableOptions = string | TableOptions;
 
@@ -23,7 +23,7 @@ export function getModel(target: any) {
 
 export function getPrepareModelOptions(target: any, options?: TTableOptions): TableOptions {
     const defaultOptions: TableOptions = {
-        name: getModelTableConvention('snake_case_plural', target.name)
+        name: toSnakePluralCase(target.name)
     }
 
     if (options === undefined) {
