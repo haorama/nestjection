@@ -1,4 +1,4 @@
-import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasManyThroughOptions, HasOneOptions, MorphOneOptions } from "../../options";
+import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasManyThroughOptions, HasOneOptions, MorphOneOptions } from "../../interfaces";
 import { ModelClass } from "../../types";
 import { Model } from "../model";
 import { BelongsToManyRelation, BelongsToRelation, HasManyThroughRelation, HasManyRelation, HasOneRelation, MorphOneRelation } from "./";

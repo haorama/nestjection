@@ -1,4 +1,4 @@
-import { BelongsToOptions } from "../../options";
+import { BelongsToOptions } from "../../interfaces";
 import { BelongsToRelation } from "../../orm";
 import { addRelation, getPreparedRelationOptions } from "../../storages/relation.storage";
 import { ModelClass } from "../../types";

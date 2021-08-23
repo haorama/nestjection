@@ -1,4 +1,4 @@
-import { MorphOneOptions } from "../../options";
+import { MorphOneOptions } from "../../interfaces";
 import { MorphOneRelation } from "../../orm";
 import { addRelation } from "../../storages/relation.storage";
 import { ModelClass } from "../../types";

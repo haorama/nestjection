@@ -1,4 +1,4 @@
-import { HasOneOptions } from "../../options";
+import { HasOneOptions } from "../../interfaces";
 import { HasOneRelation } from "../../orm";
 import { addRelation, getPreparedRelationOptions } from "../../storages/relation.storage";
 import { ModelClass } from "../../types";

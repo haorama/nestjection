@@ -1,5 +1,5 @@
 import { Model as ObjectionModel } from "objection";
-import { PaginationOptions } from "../options";
+import { PaginationOptions } from "../interfaces";
 import { Model } from "../orm";
 import { objExcept } from "../utils";
 

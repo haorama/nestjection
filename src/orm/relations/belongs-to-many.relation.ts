@@ -1,4 +1,4 @@
-import { BelongsToManyOptions } from "../../options";
+import { BelongsToManyOptions } from "../../interfaces";
 import { ModelClass } from "../../types";
 import { toSnakeCase } from "../../utils";
 import { Model } from "../model";

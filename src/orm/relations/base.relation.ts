@@ -1,5 +1,5 @@
 import Objection,{ RelationMapping } from "objection";
-import { BaseRelationOptions } from "../../options";
+import { BaseRelationOptions } from "../../interfaces";
 import { ModelClass } from "../../types";
 import { toSnakeCase } from "../../utils";
 import { Model } from "../model";

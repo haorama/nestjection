@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasManyThroughOptions, HasOneOptions, MorphOneOptions } from "../options";
+import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasManyThroughOptions, HasOneOptions, MorphOneOptions } from "../interfaces";
 import { BaseRelation } from "../orm";
 
 const RELATIONS_KEY = 'mlazuardy_objection:relations';

@@ -1,4 +1,4 @@
-import { HasOneOptions } from "../../options";
+import { HasOneOptions } from "../../interfaces";
 import { ModelClass } from "../../types";
 import { Model } from "../model";
 import { BaseRelation } from "./base.relation";

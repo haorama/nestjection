@@ -1,5 +1,5 @@
 import { Model } from "objection";
-import { PaginationOptions } from "../options";
+import { PaginationOptions } from "../interfaces";
 import { AbstractPaginator } from "./abstract.paginator";
 
 export class SimplePaginator<T extends Model = any> extends AbstractPaginator<T> {

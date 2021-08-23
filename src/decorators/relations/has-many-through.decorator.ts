@@ -1,4 +1,4 @@
-import { HasManyThroughOptions } from "../../options";
+import { HasManyThroughOptions } from "../../interfaces";
 import { HasManyThroughRelation } from "../../orm";
 import { addRelation } from "../../storages/relation.storage";
 import { ModelClass } from "../../types";

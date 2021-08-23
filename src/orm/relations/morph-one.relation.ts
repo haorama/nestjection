@@ -1,4 +1,4 @@
-import { MorphOneOptions } from "../../options/relations/morph-one.options";
+import { MorphOneOptions } from "../../interfaces/relations/morph-one.options";
 import { ModelClass } from "../../types";
 import { Model } from "../model";
 import { QueryBuilder } from "../query-builder";

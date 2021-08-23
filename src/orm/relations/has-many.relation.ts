@@ -1,4 +1,4 @@
-import { HasManyOptions } from "../../options";
+import { HasManyOptions } from "../../interfaces";
 import { ModelClass } from "../../types";
 import { Model } from "../model";
 import { BaseRelation } from "./base.relation";

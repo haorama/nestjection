@@ -1,7 +1,7 @@
 import { Injectable, OnApplicationBootstrap, OnApplicationShutdown } from "@nestjs/common";
 import Knex from 'knex';
 import { Model } from "./orm";
-import { DatabaseModuleOptions } from "./options";
+import { DatabaseModuleOptions } from "./interfaces";
 import glob from 'glob';
 import { extname, basename, resolve } from 'path';
 import { getFullfilepathWithoutExtension, isImportable, uniqueFilter } from "./utils";
