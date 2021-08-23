@@ -1,22 +1,32 @@
-import { Injectable, OnApplicationBootstrap, OnApplicationShutdown } from "@nestjs/common";
+import { Injectable, OnApplicationBootstrap, OnApplicationShutdown, Logger } from "@nestjs/common";
 import Knex from 'knex';
 import { Model } from "./orm";
 import { DatabaseModuleOptions } from "./interfaces";
 import glob from 'glob';
 import { extname, basename, resolve } from 'path';
-import { getFullfilepathWithoutExtension, isImportable, uniqueFilter } from "./utils";
+import { getFullfilepathWithoutExtension, isImportable, performanceNow, uniqueFilter } from "./utils";
 
 @Injectable()
 export class DatabaseService implements OnApplicationShutdown, OnApplicationBootstrap {
+    private readonly logger = new Logger(DatabaseService.name);
+
     knex: Knex;
 
     models: any[] = [];
+
+    protected logs: {
+        [key: string]: any
+    }
+
+    protected count: number = 0;
 
     register(options: DatabaseModuleOptions) {
         this.knex = Knex(options.db);
         this.models = options.models;
 
         Model.knex(this.knex);
+
+        this.shouldShowDebug(options.debug);
     }
 
     async onApplicationShutdown() {
@@ -29,6 +39,43 @@ export class DatabaseService implements OnApplicationShutdown, OnApplicationBoot
         models.map((model: any) => {
             if (model && typeof model.boot === 'function') model.boot()
         })
+    }
+
+    private shouldShowDebug(debug?: boolean) {
+        if (debug) {
+            this.knex.on('query', (query) => this.setPerformance(query));
+            this.knex.on('query-response', (response, query) => this.getPerformance(response, query))
+        }
+    }
+
+    private getPerformance(response: any, query: any) {
+        const uid = query.__knexQueryUid;
+
+        if (this.logs && this.logs[uid]) {
+            this.logs[uid].endTime = performanceNow(this.logs[uid].start);
+            this.logs[uid].finished = true;
+
+            this.logger.log(`${this.logs[uid].query.sql} ${this.logs[uid].endTime}ms`)
+        }
+    }
+
+    private setPerformance(query: any) {
+        const uid = query.__knexQueryUid;
+
+        const debugValue = {
+            query,
+            position: this.count,
+            start: process.hrtime(),
+            finished: false,
+        }
+
+        if (!this.logs) {
+            this.logs = { [uid]: debugValue }
+
+            this.count = this.count + 1;
+        } else {
+            this.logs[uid] = debugValue;
+        }
     }
 
     protected getModels() {
