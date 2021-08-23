@@ -1,7 +1,6 @@
 import { Model as ObjectionModel } from "objection";
 import { PaginationOptions } from "../interfaces";
 import { Model } from "../orm";
-import { objExcept } from "../utils";
 
 export class AbstractPaginator<T extends ObjectionModel> {
     data: T[];
@@ -14,13 +13,11 @@ export class AbstractPaginator<T extends ObjectionModel> {
 
     totalPerPage?: number;
 
-    req: any;
-
     constructor(data: T[], total: number, options: PaginationOptions) {
         this.data = data;
         this.total = total;
         this.perPage = options.perPage;
-        this.currentPage = options.page;
+        this.currentPage = Number(options.page);
         this.totalPerPage = data.length;
     }
 
@@ -38,7 +35,7 @@ export class AbstractPaginator<T extends ObjectionModel> {
 
     toResponse() {
         return {
-            ...objExcept(this, ['req']),
+            ...this,
             data: this.data.map(d => this.serialize(d)),
             nextPage: this.nextPage,
             prevPage: this.prevPage,
