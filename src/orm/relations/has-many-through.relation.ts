@@ -7,9 +7,13 @@ import { BaseRelation } from "./base.relation";
 export class HasManyThroughRelation extends BaseRelation {
     through: string | typeof Model;
 
-    firstKey?: string;
+    from?: string;
 
-    secondKey?: string;
+    to?: string;
+
+    throughFrom?: string;
+
+    throughTo?: string;
 
     options: HasManyThroughOptions;
 
@@ -20,10 +24,16 @@ export class HasManyThroughRelation extends BaseRelation {
     }
 
     setOptions() {
-        this.firstKey = this.options.firstKey ?? `${toSnakeCase(this.target.name)}_id`;
-        this.secondKey = this.options.secondKey ?? `${toSnakeCase(this.related.name)}_id`;
+        this.throughFrom = this.options.throughFrom ?? `${toSnakeCase(this.target.name)}_id`;
+        this.throughTo = this.options.throughTo ?? 'id';
+
+        this.from = this.options.from ?? 'id';
 
         this.through = this.options.through;
+
+        if (typeof this.through != 'string' && !this.to) {
+            this.to = toSnakeCase(this.through.name) + '_id';
+        }
     }
 
     getRelation() {
@@ -32,19 +42,19 @@ export class HasManyThroughRelation extends BaseRelation {
         let through = this.through;
 
         if (typeof through != 'string') {
-            through = toSnakeCase(through.name)
+            through = through.tableName;
         }
 
         return {
             modelClass: this.relatedClass,
             relation: Model.ManyToManyRelation,
             join: {
-                from: `${this.target.tableName}.id`,
+                from: `${this.target.tableName}.${this.from}`,
+                to: `${this.related.tableName}.${this.to}`,
                 through: {
-                    from: `${through}.${this.firstKey}`,
-                    to: `${through}.${this.secondKey}`
+                    from: `${through}.${this.throughFrom}`,
+                    to: `${through}.${this.throughTo}`
                 },
-                to: `${this.related.tableName}.id`,
             }
         }
     }
