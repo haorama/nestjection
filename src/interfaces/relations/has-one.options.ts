@@ -1,7 +1,6 @@
 import { BaseRelationOptions } from "./base-relation.options";
-import { RelationFilterOptions } from "./relation-filter.options";
 
-export interface HasOneOptions extends RelationFilterOptions, BaseRelationOptions {
+export interface HasOneOptions extends BaseRelationOptions {
     foreignKey?: string;
     localKey?: string;
 }

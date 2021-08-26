@@ -19,6 +19,12 @@ export class BelongsToManyRelation extends BaseRelation {
         this.options = options;
     }
 
+    setOptions() {
+        this.relatedTable = this.options.relatedTable ?? `${toSnakeCase(this.related.name)}_${toSnakeCase(this.target.name)}`
+        this.foreignPivotKey = this.options.foreignPivotKey ?? `${toSnakeCase(this.target.name)}_id`;
+        this.relatedPivotKey = this.options.relatedPivotKey ?? `${toSnakeCase(this.related.name)}_id`;
+    }
+
     getRelation() {
         this.setOptions();
 
@@ -34,11 +40,5 @@ export class BelongsToManyRelation extends BaseRelation {
                 to: `${this.related.tableName}.id`,
             },
         }
-    }
-
-    setOptions() {
-        this.relatedTable = this.options.relatedTable ?? `${toSnakeCase(this.related.name)}_${toSnakeCase(this.target.name)}`
-        this.foreignPivotKey = this.options.foreignPivotKey ?? `${toSnakeCase(this.target.name)}_id`;
-        this.relatedPivotKey = this.options.relatedPivotKey ?? `${toSnakeCase(this.related.name)}_id`;
     }
 }
