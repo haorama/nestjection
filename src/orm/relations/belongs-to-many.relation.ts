@@ -28,7 +28,7 @@ export class BelongsToManyRelation extends BaseRelation {
     getRelation() {
         this.setOptions();
 
-        return {
+        return this.mergeRelation({
             modelClass: this.relatedClass,
             relation: Model.ManyToManyRelation,
             join: {
@@ -39,6 +39,6 @@ export class BelongsToManyRelation extends BaseRelation {
                 },
                 to: `${this.related.tableName}.id`,
             },
-        }
+        })
     }
 }

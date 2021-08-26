@@ -16,13 +16,13 @@ export class HasOneRelation extends BaseRelation {
         this.setForeignKey(this.options.foreignKey);
         this.setLocalKey(this.options.localKey);
 
-        return {
+        return this.mergeRelation({
             modelClass: this.relatedClass,
             relation: Model.HasOneRelation,
             join: {
                 from: `${this.target.tableName}.${this.localKey}`,
                 to: `${this.related.tableName}.${this.foreignKey}`,
             }
-        }
+        })
     }
 }

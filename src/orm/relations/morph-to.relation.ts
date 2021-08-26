@@ -13,8 +13,8 @@ export class MorphToRelation extends BelongsToRelation {
     }
 
     getRelation() {
-        return {
+        return this.mergeRelation({
             ...super.getRelation()
-        }
+        })
     }
 }

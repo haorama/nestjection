@@ -17,13 +17,13 @@ export class BelongsToRelation extends BaseRelation {
         this.setForeignKey(this.options.foreignKey);
         this.setOwnerKey(this.options.ownerKey);
 
-        return {
+        return this.mergeRelation({
             modelClass: this.relatedClass,
             relation: Model.BelongsToOneRelation,
             join: {
                 to: `${this.target.tableName}.${this.foreignKey}`,
                 from: `${this.related.tableName}.${this.ownerKey}`,
             }
-        }
+        })
     }
 }

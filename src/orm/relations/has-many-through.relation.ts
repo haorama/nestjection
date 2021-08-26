@@ -45,7 +45,7 @@ export class HasManyThroughRelation extends BaseRelation {
             through = through.tableName;
         }
 
-        return {
+        return this.mergeRelation({
             modelClass: this.relatedClass,
             relation: Model.ManyToManyRelation,
             join: {
@@ -56,6 +56,6 @@ export class HasManyThroughRelation extends BaseRelation {
                     to: `${through}.${this.throughTo}`
                 },
             }
-        }
+        })
     }
 }
