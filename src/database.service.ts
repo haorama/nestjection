@@ -3,7 +3,7 @@ import Knex from 'knex';
 import { Model } from "./orm";
 import { DatabaseModuleOptions } from "./interfaces";
 import glob from 'glob';
-import { extname, basename, resolve } from 'path';
+import { resolve } from 'path';
 import { getFullfilepathWithoutExtension, isImportable, performanceNow, uniqueFilter } from "./utils";
 
 @Injectable()
@@ -87,14 +87,9 @@ export class DatabaseService implements OnApplicationShutdown, OnApplicationBoot
                 .map(getFullfilepathWithoutExtension)
                 .filter(uniqueFilter)
                 .map(fullPath => {
-                    const fileName = basename(fullPath);
-
                     const module = require(resolve(fullPath));
 
-                    const matchedMemberKey = Object.keys(module).find((m) => {
-                        const modelStripped = fileName.substring(0, fileName.indexOf('.model'));
-                        return modelStripped === m.toLowerCase();
-                    });
+                    const matchedMemberKey = Object.keys(module).find((m) => m);
 
                     const matchedMember = matchedMemberKey ? module[matchedMemberKey] : undefined;
 
