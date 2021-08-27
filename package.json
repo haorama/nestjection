@@ -1,6 +1,6 @@
 {
   "name": "@mlazuardy/nestjection",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Nestjs integration for Objection+Knex",
   "scripts": {
     "prepublish": "tsc",
@@ -34,7 +34,7 @@
   "peerDependencies": {
     "@nestjs/common": "^7.0.0 || ^8.0.0",
     "@nestjs/core": "^7.0.0 || ^8.0.0",
-    "knex": "^0.21.20",
+    "knex": "^0.95",
     "objection": "^2.0.0"
   },
   "devDependencies": {
@@ -44,7 +44,7 @@
     "@types/glob": "^7.1.4",
     "@types/node": "^15.3.1",
     "dotenv": "^10.0.0",
-    "knex": "^0.21.20",
+    "knex": "^0.95.10",
     "mysql2": "^2.2.5",
     "objection": "^2.0.0",
     "reflect-metadata": "^0.1.13",
