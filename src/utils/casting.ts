@@ -1,15 +1,4 @@
-import { ModelCase, TableConvention } from "../types";
-
-export function getModelTableConvention(convention: TableConvention, value: string) {
-    switch (convention) {
-        case 'snake_case':
-            return toSnakeCase(value)
-        case 'camelCase':
-            return toCamelCase(value)
-        default:
-            return toSnakePluralCase(value);
-    }
-}
+import { ModelCase } from "../types";
 
 export function toSnakeCase(value: string) {
     return value.replace(/\W+/g, " ").split(/ |\B(?=[A-Z])/)
