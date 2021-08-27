@@ -1,5 +1,5 @@
 export * from './database.module';
-export * from './options';
+export * from './interfaces';
 export * from './interceptors';
 export * from './orm';
 export * from './paginators';

@@ -1,15 +1,15 @@
-import { BelongsToManyOptions } from "../../options";
+import { BelongsToManyOptions } from "../../interfaces";
 import { ModelClass } from "../../types";
 import { toSnakeCase } from "../../utils";
 import { Model } from "../model";
 import { BaseRelation } from "./base.relation";
 
 export class BelongsToManyRelation extends BaseRelation {
-    relatedTable: string;
+    pivotTable: string;
 
-    foreignPivotKey: string;
+    throughFrom: string;
 
-    relatedPivotKey: string;
+    throughTo: string;
 
     options: BelongsToManyOptions;
 
@@ -19,26 +19,26 @@ export class BelongsToManyRelation extends BaseRelation {
         this.options = options;
     }
 
+    setOptions() {
+        this.pivotTable = this.options.pivotTable ?? `${toSnakeCase(this.related.name)}_${toSnakeCase(this.target.name)}`
+        this.throughFrom = this.options.throughFrom ?? `${toSnakeCase(this.target.name)}_id`;
+        this.throughTo = this.options.throughTo ?? `${toSnakeCase(this.related.name)}_id`;
+    }
+
     getRelation() {
         this.setOptions();
 
-        return {
+        return this.mergeRelation({
             modelClass: this.relatedClass,
             relation: Model.ManyToManyRelation,
             join: {
                 from: `${this.target.tableName}.id`,
                 through: {
-                    from: `${this.relatedTable}.${this.foreignPivotKey}`,
-                    to: `${this.relatedTable}.${this.relatedPivotKey}`
+                    from: `${this.pivotTable}.${this.throughFrom}`,
+                    to: `${this.pivotTable}.${this.throughTo}`
                 },
                 to: `${this.related.tableName}.id`,
             },
-        }
-    }
-
-    setOptions() {
-        this.relatedTable = this.options.relatedTable ?? `${toSnakeCase(this.related.name)}_${toSnakeCase(this.target.name)}`
-        this.foreignPivotKey = this.options.foreignPivotKey ?? `${toSnakeCase(this.target.name)}_id`;
-        this.relatedPivotKey = this.options.relatedPivotKey ?? `${toSnakeCase(this.related.name)}_id`;
+        })
     }
 }

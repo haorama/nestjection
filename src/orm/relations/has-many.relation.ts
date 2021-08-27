@@ -1,4 +1,4 @@
-import { HasManyOptions } from "../../options";
+import { HasManyOptions } from "../../interfaces";
 import { ModelClass } from "../../types";
 import { Model } from "../model";
 import { BaseRelation } from "./base.relation";
@@ -16,13 +16,13 @@ export class HasManyRelation extends BaseRelation {
         this.setForeignKey(this.options.foreignKey);
         this.setLocalKey(this.options.localKey)
 
-        return {
+        return this.mergeRelation({
             modelClass: this.relatedClass,
             relation: Model.HasManyRelation,
             join: {
                 from: `${this.target.tableName}.${this.localKey}`,
                 to: `${this.related.tableName}.${this.foreignKey}`,
             }
-        }
+        })
     }
 }

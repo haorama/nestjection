@@ -1,7 +1,7 @@
 import { QueryBuilder as ObjectionQueryBuilder, Model as ObjectionModel, Page } from 'objection';
 import { arrayDiff } from '../utils';
 import { Model as MyModel } from './model';
-import { PaginationOptions } from '../options';
+import { PaginationOptions } from '../interfaces';
 import { SimplePaginator } from '../paginators';
 
 export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends ObjectionQueryBuilder<Model, R> {
@@ -119,11 +119,6 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
         return model;
     }
 
-    /** find given idColumn and throw error, only except single attribute */
-    findOrFail(id: any) {
-        return this.where(this.modelClass().idColumn as string, id).firstOrFail();
-    }
-
     async firstOrNew(keys: any) {
         const model = await this.where(keys).first();
 
@@ -143,22 +138,6 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
             `${this.modelClass().tableName}.*`,
             ...selectCounts
         ])
-    }
-
-    /** Get query by where morph */
-    whereMorph(morph: string, model: Model | MyModel) {
-        const id = `${morph}_id`;
-        const type = `${morph}_type`;
-
-        return this.where(id, model.$id()).where(type, model.$modelClass.name);
-    }
-
-    /** Get query by where morph */
-    whereNotMorph(morph: string, model: Model | MyModel) {
-        const id = `${morph}_id`;
-        const type = `${morph}_type`;
-
-        return this.whereNot(id, model.$id()).whereNot(type, model.$modelClass.name);
     }
 
     whereJSON(jsonColumn: string, prop: string, value: any) {

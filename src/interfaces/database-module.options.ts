@@ -7,4 +7,6 @@ export interface DatabaseModuleOptions {
     db: Knex.Config;
 
     models?: any;
+
+    debug?: boolean;
 }

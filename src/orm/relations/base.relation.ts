@@ -1,10 +1,10 @@
 import Objection,{ RelationMapping } from "objection";
-import { BaseRelationOptions } from "../../options";
+import { BaseRelationOptions } from "../../interfaces";
 import { ModelClass } from "../../types";
 import { toSnakeCase } from "../../utils";
 import { Model } from "../model";
 
-export abstract class BaseRelation<O extends BaseRelationOptions = any> {
+export abstract class BaseRelation<O extends BaseRelationOptions = {as?: string}> {
     options?: O;
 
     targetClass: Model;
@@ -53,6 +53,20 @@ export abstract class BaseRelation<O extends BaseRelationOptions = any> {
             }
 
             return `${toSnakeCase(this.target.name)}_id`
+        }
+    }
+
+    /** Merge relation with base options of relations */
+    protected mergeRelation(data: RelationMapping<any>): RelationMapping<any> {
+        const relation: any = {};
+
+        if (this.options.filter) {
+            relation.filter = this.options.filter;
+        }
+
+        return {
+            ...relation,
+            ...data
         }
     }
 }

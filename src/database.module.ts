@@ -1,7 +1,7 @@
 import { DynamicModule, Module } from "@nestjs/common";
 import { NESTJECTION_DB } from "./constants";
 import { DatabaseService } from "./database.service";
-import { DatabaseModuleOptions } from "./options";
+import { DatabaseModuleOptions } from "./interfaces";
 
 @Module({})
 export class DatabaseModule {

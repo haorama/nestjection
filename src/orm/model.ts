@@ -1,15 +1,12 @@
 import { Model as ObjectionModel, Pojo } from 'objection';
 import { getRelations } from '../storages/relation.storage';
-import { TableConvention } from '../types';
-import { getModelTableConvention, objExcept } from '../utils';
+import { objExcept } from '../utils';
 import { QueryBuilder } from './query-builder';
 
 export class Model extends ObjectionModel {
     QueryBuilderType!: QueryBuilder<this>;
 
     static booted = false;
-
-    static tableConvention?: TableConvention = 'snake_case_plural';
 
     constructor(attrs: object = {}) {
         super();
@@ -38,16 +35,6 @@ export class Model extends ObjectionModel {
         return QueryBuilder;
     }
 
-    /** Table naming convention, default using snake case plural */
-    static get tableName() {
-        return getModelTableConvention(this.tableConvention, this.name);
-    }
-
-    /** Set this to true if you want to implement soft delete, In progress */
-    static get useSoftDelete(): boolean {
-        return false;
-    }
-
     /** Serialize the excluded property */
     serialize() {
         return objExcept(this, (<typeof Model>this.constructor).hiddenFields);
@@ -72,7 +59,11 @@ export class Model extends ObjectionModel {
 
         const model = new this();
 
-        this.setRelations(model)
+        this.prepareModel(model);
+    }
+
+    private static prepareModel(model: Model) {
+        this.setRelations(model);
     }
 
     private static setRelations(model: Model) {

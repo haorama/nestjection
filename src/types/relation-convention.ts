@@ -1,1 +1,1 @@
-export type RelationConvention = 'snake_case' | 'kebabCase';
+export type RelationConvention = 'snake_case' | 'camelCase';
