@@ -4,10 +4,10 @@ import { addRelation, getPreparedRelationOptions } from "../../storages/relation
 import { ModelClass } from "../../types";
 
 export function BelongsToMany(modelClass: ModelClass, options?: BelongsToManyOptions): Function {
-    return (target: any, propertyName: string) => {
+    return (target: any, propertyKey: string) => {
         const belongsToManyOptions: BelongsToManyOptions = getPreparedRelationOptions(options);
 
-        if (!belongsToManyOptions.as) belongsToManyOptions.as = propertyName;
+        if (!belongsToManyOptions.as) belongsToManyOptions.as = propertyKey;
 
         addRelation(target, new BelongsToManyRelation(target, modelClass, belongsToManyOptions));
     }

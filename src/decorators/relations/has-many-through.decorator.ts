@@ -6,7 +6,7 @@ import { ModelClass } from "../../types";
 export function HasManyThrough(modelClass: ModelClass, throughTableOrOptions: string | HasManyThroughOptions): Function;
 
 export function HasManyThrough(modelClass: ModelClass, throughTableOrOptions: string | HasManyThroughOptions): Function {
-    return (target: any, propertyName: string) => {
+    return (target: any, propertyKey: string) => {
         let hasManyThroughOptions: any = {};
 
         if (typeof throughTableOrOptions === 'string') {
@@ -15,7 +15,7 @@ export function HasManyThrough(modelClass: ModelClass, throughTableOrOptions: st
             hasManyThroughOptions = throughTableOrOptions;
         }
 
-        hasManyThroughOptions.as = propertyName;
+        hasManyThroughOptions.as = propertyKey;
 
         addRelation(target, new HasManyThroughRelation(target, modelClass, hasManyThroughOptions))
     }
