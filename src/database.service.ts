@@ -1,5 +1,5 @@
 import { Injectable, OnApplicationBootstrap, OnApplicationShutdown, Logger } from "@nestjs/common";
-import Knex from 'knex';
+import KnexInstance, { Knex } from 'knex';
 import { Model } from "./orm";
 import { DatabaseModuleOptions } from "./interfaces";
 import glob from 'glob';
@@ -21,7 +21,7 @@ export class DatabaseService implements OnApplicationShutdown, OnApplicationBoot
     protected count: number = 0;
 
     register(options: DatabaseModuleOptions) {
-        this.knex = Knex(options.db);
+        this.knex = KnexInstance(options.db);
         this.models = options.models;
 
         Model.knex(this.knex);

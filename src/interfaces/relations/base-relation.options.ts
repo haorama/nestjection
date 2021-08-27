@@ -1,4 +1,4 @@
-import { QueryBuilder } from "knex";
+import { QueryBuilder } from "../../orm";
 
 export interface BaseRelationOptions {
     /** relation property name */
