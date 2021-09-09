@@ -5,3 +5,4 @@ export * from './belongs-to-many.decorator';
 export * from './morph-one.decorator';
 export * from './has-many-through.decorator';
 export * from './morph-to.decorator';
+export * from './morph-many.decorator';

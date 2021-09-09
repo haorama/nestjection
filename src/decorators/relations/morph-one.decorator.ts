@@ -3,10 +3,10 @@ import { MorphOneRelation } from "../../orm";
 import { addRelation } from "../../storages/relation.storage";
 import { ModelClass } from "../../types";
 
-export function MorphOne(modelClass: ModelClass, morphName: string): Function;
-export function MorphOne(modelClass: ModelClass, options: MorphOneOptions): Function;
+export function MorphOne(modelClass: ModelClass, morphName: string): PropertyDecorator;
+export function MorphOne(modelClass: ModelClass, options: MorphOneOptions): PropertyDecorator;
 
-export function MorphOne(modelClass: ModelClass, morphNameOrOptions: string | MorphOneOptions): Function {
+export function MorphOne(modelClass: ModelClass, morphNameOrOptions: string | MorphOneOptions): PropertyDecorator {
     return (target: any, propertyKey: string) => {
         let morphOneOptions: any = {};
 
