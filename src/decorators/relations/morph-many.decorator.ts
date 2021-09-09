@@ -6,7 +6,7 @@ export function MorphMany(modelClass: ModelClass, morphName: string): PropertyDe
 export function MorphMany(modelClass: ModelClass, options: MorphManyOptions): PropertyDecorator;
 export function MorphMany(modelClass: ModelClass, arg: string | MorphManyOptions): PropertyDecorator {
     return (target: any, propertyKey) => {
-        let morphManyOptions: MorphManyOptions;
+        let morphManyOptions: MorphManyOptions = {} as any;
 
         if (typeof arg === 'string') {
             morphManyOptions.morphName = arg

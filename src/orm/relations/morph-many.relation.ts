@@ -21,6 +21,8 @@ export class MorphManyRelation extends HasManyRelation {
     }
 
     getRelation() {
+        this.setMorphAttribute();
+
         return {
             filter: (builder: QueryBuilder<any>) => {
                 const typeValue = this.options.typeValue || this.target.name;
