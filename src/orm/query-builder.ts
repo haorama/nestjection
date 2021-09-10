@@ -13,13 +13,6 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
         super(modelClass);
     }
 
-    /** Find the given query without soft remove data */
-    noTrashed(shouldApply: boolean = true) {
-        if (shouldApply) {
-            return this.whereNull('deleted_at');
-        }
-    }
-
     /** Find object limit by 1 or throw if not found */
     firstOrFail() {
         return this.throwIfNotFound().first();
