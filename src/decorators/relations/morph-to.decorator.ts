@@ -1,14 +1,14 @@
 import { MorphToOptions } from "../../interfaces";
-import { Model, MorphToRelation } from "../../orm";
-import { addRelation, getPreparedRelationOptions } from "../../storages/relation.storage";
+import { MorphToRelation } from "../../orm";
+import { addRelation } from "../../storages/relation.storage";
+import { ModelClass } from "../../types";
 
-/** Incomplete */
-export function MorphTo(morphs: typeof Model[], options?: MorphToOptions): PropertyDecorator {
+export function MorphTo(related: ModelClass, options?: MorphToOptions): PropertyDecorator {
     return (target: any, propertyKey: string) => {
-        const morphToOptions: MorphToOptions = getPreparedRelationOptions(options);
+        const morphToOptions: MorphToOptions = {...options} as any;
 
         if (!morphToOptions.as) morphToOptions.as = propertyKey;
 
-        addRelation(target, new MorphToRelation(target, morphs, morphToOptions))
+        addRelation(target, new MorphToRelation(target, related, morphToOptions))
     }
 }
