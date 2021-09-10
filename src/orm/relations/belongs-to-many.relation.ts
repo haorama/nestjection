@@ -5,11 +5,11 @@ import { Model } from "../model";
 import { BaseRelation } from "./base.relation";
 
 export class BelongsToManyRelation extends BaseRelation {
-    pivotTable: string;
+    table: string;
 
-    throughFrom: string;
+    parentFK: string;
 
-    throughTo: string;
+    relatedFK: string;
 
     options: BelongsToManyOptions;
 
@@ -20,9 +20,9 @@ export class BelongsToManyRelation extends BaseRelation {
     }
 
     setOptions() {
-        this.pivotTable = this.options.pivotTable ?? `${toSnakeCase(this.related.name)}_${toSnakeCase(this.target.name)}`
-        this.throughFrom = this.options.throughFrom ?? `${toSnakeCase(this.target.name)}_id`;
-        this.throughTo = this.options.throughTo ?? `${toSnakeCase(this.related.name)}_id`;
+        this.table = this.options.table ?? `${toSnakeCase(this.related.name)}_${toSnakeCase(this.target.name)}`
+        this.parentFK = this.options.parentFK ?? `${toSnakeCase(this.target.name)}_id`;
+        this.relatedFK = this.options.relatedFK ?? `${toSnakeCase(this.related.name)}_id`;
     }
 
     getRelation() {
@@ -34,8 +34,8 @@ export class BelongsToManyRelation extends BaseRelation {
             join: {
                 from: `${this.target.tableName}.id`,
                 through: {
-                    from: `${this.pivotTable}.${this.throughFrom}`,
-                    to: `${this.pivotTable}.${this.throughTo}`
+                    from: `${this.table}.${this.parentFK}`,
+                    to: `${this.table}.${this.relatedFK}`
                 },
                 to: `${this.related.tableName}.id`,
             },

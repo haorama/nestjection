@@ -2,11 +2,11 @@ import { BaseRelationOptions } from "./base-relation.options";
 
 export interface BelongsToManyOptions extends BaseRelationOptions {
     /** Intermediate table */
-    pivotTable?: string;
+    table?: string;
 
     /** foreign key for model table */
-    throughFrom?: string;
+    parentFK?: string;
 
     /** foreign key for related table*/
-    throughTo?: string;
+    relatedFK?: string;
 }
