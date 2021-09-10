@@ -146,6 +146,8 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
     whereHas(relation: keyof Model, callback?: (query: any) => void) {
         const related = this.modelClass().relatedQuery(relation);
 
+        if (callback) callback(related)
+
         return this.whereExists(related);
     }
 
