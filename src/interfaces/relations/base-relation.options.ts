@@ -2,7 +2,7 @@ import { QueryBuilder } from "../../orm";
 
 export interface BaseRelationOptions {
     /** relation property name */
-    as?: string;
+    as?: string | symbol;
 
     /** local key on model table */
     from?: string;

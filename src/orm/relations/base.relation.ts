@@ -4,7 +4,7 @@ import { ModelClass } from "../../types";
 import { toSnakeCase } from "../../utils";
 import { Model } from "../model";
 
-export abstract class BaseRelation<O extends BaseRelationOptions = {as?: string}> {
+export abstract class BaseRelation<O extends BaseRelationOptions = {as?: string | symbol}> {
     options?: O;
 
     targetClass: Model;

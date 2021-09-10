@@ -6,3 +6,5 @@ export * from './has-many-through.options';
 export * from './morph-one.options';
 export * from './base-relation.options';
 export * from './morph-to.options';
+export * from './morph-many.options';
+export * from './morph.options';

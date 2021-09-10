@@ -55,7 +55,7 @@ export class DatabaseService implements OnApplicationShutdown, OnApplicationBoot
             this.logs[uid].endTime = performanceNow(this.logs[uid].start);
             this.logs[uid].finished = true;
 
-            this.logger.log(`${this.logs[uid].query.sql} ${this.logs[uid].endTime}ms`)
+            this.logger.log(`${this.logs[uid].query.sql} ${this.logs[uid].endTime}ms bindings=${query.bindings}`)
         }
     }
 
