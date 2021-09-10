@@ -1,6 +1,5 @@
 import { QueryBuilder as ObjectionQueryBuilder, Model as ObjectionModel, Page } from 'objection';
 import { arrayDiff } from '../utils';
-import { Model as MyModel } from './model';
 import { PaginationOptions } from '../interfaces';
 import { SimplePaginator } from '../paginators';
 
@@ -12,13 +11,6 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
 
     constructor(modelClass: any) {
         super(modelClass);
-    }
-
-    /** Find the given query without soft remove data */
-    noTrashed(shouldApply: boolean = true) {
-        if (shouldApply) {
-            return this.whereNull('deleted_at');
-        }
     }
 
     /** Find object limit by 1 or throw if not found */
@@ -129,15 +121,14 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
         return model;
     }
 
-    withCount(relations: string[]) {
+    withCount(relations: string | string[]) {
+        if (!Array.isArray(relations)) relations = [relations]
+
         const selectCounts = relations.map(relation => {
             return this.modelClass().relatedQuery(relation).count().as(`${relation}_count`);
         })
 
-        return this.select([
-            `${this.modelClass().tableName}.*`,
-            ...selectCounts
-        ])
+        return this.select(...selectCounts)
     }
 
     whereJSON(jsonColumn: string, prop: string, value: any) {
@@ -147,6 +138,8 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
     /** Check if model has the given relation */
     whereHas(relation: keyof Model, callback?: (query: any) => void) {
         const related = this.modelClass().relatedQuery(relation);
+
+        if (callback) callback(related)
 
         return this.whereExists(related);
     }

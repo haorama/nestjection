@@ -9,6 +9,10 @@ export function Table(nameOrOptions?: string | TableOptions): ClassDecorator {
 
         target.tableName = tableOptions.name;
 
+        if (tableOptions.softDelete) {
+            target.softDelete = tableOptions.softDelete ? 'deleted_at' : tableOptions.softDelete
+        }
+
         addModel(target, tableOptions)
     }
 }

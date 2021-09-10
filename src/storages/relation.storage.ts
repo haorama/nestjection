@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { RELATIONS_KEY } from '../constants';
-import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasManyThroughOptions, HasOneOptions, MorphOneOptions } from "../interfaces";
+import { MorphManyOptions, BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasManyThroughOptions, HasOneOptions, MorphOneOptions } from "../interfaces";
 import { BaseRelation } from "../orm";
 
 export type TRelationOptions =
@@ -10,6 +10,7 @@ export type TRelationOptions =
   | BelongsToManyOptions
   | MorphOneOptions
   | HasManyThroughOptions
+  | MorphManyOptions
 
 /** Store relation from the model class */
 export function addRelation(target: any, relation: BaseRelation) {

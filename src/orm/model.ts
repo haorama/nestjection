@@ -4,7 +4,8 @@ import { objExcept } from '../utils';
 import { QueryBuilder } from './query-builder';
 
 export class Model extends ObjectionModel {
-    QueryBuilderType!: QueryBuilder<this>;
+    QueryBuilderType: QueryBuilder<this>;
+    static QueryBuilder = QueryBuilder
 
     static booted = false;
 
@@ -28,11 +29,6 @@ export class Model extends ObjectionModel {
     /** Casting attributes / properties */
     casts(): object {
         return {}
-    }
-
-    /** Extender Query builder */
-    static get QueryBuilder() {
-        return QueryBuilder;
     }
 
     /** Serialize the excluded property */
