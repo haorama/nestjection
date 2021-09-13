@@ -11,12 +11,14 @@ This package is use internally for my project, but can be used also if you want 
 
 ## Installation
 ```
-npm install @mlazuardy/nestjection
+npm install @haorama/nestjection
 ```
 or
 ```
-yarn add @mlazuardy/nestjection
+yarn add @haorama/nestjection
 ```
+
+Dont forget to install `knex` and `objection`, they all peer dependencies
 
 ## Documentation
 
