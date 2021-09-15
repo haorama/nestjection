@@ -3,7 +3,7 @@ import { HasOneRelation } from "../../orm";
 import { addRelation, getPreparedRelationOptions } from "../../storages/relation.storage";
 import { ModelClass } from "../../types";
 
-export function HasOne(modelClass: ModelClass, options?: HasOneOptions): Function {
+export function HasOne(modelClass: ModelClass, options?: HasOneOptions): PropertyDecorator {
     return (target: any, propertyKey: string) => {
         const hasOneOptions: HasOneOptions = getPreparedRelationOptions(options);
 

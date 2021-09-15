@@ -1,6 +1,6 @@
 import { Model as ObjectionModel, Pojo } from 'objection';
 import { getRelations } from '../storages/relation.storage';
-import { objExcept } from '../utils';
+import { castValue, objExcept } from '../utils';
 import { QueryBuilder } from './query-builder';
 
 export class Model extends ObjectionModel {
@@ -44,7 +44,7 @@ export class Model extends ObjectionModel {
             const casts = this.casts();
 
             for (const [key, value] of Object.entries(casts)) {
-                json[key] = value;
+                json[key] = castValue(this[key], value);
             }
         }
 

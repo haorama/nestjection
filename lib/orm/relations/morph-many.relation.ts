@@ -23,14 +23,14 @@ export class MorphManyRelation extends HasManyRelation {
     getRelation() {
         this.setMorphAttribute();
 
+        const typeValue = this.options.typeValue || this.target.name;
+
         return {
             filter: (builder: QueryBuilder<any>) => {
-                const typeValue = this.options.typeValue || this.target.name;
-
                 builder.where(this.type, typeValue);
             },
             beforeInsert(model: any) {
-                model[this.type] = this.target.name;
+                model[this.type] = typeValue;
             },
             ...super.getRelation(),
             join: {

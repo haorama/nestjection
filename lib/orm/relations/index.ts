@@ -7,3 +7,4 @@ export * from './has-one.relation';
 export * from './morph-one.relation';
 export * from './morph-to.relation';
 export * from './morph-many.relation';
+export * from './morph-to-many.relation';
