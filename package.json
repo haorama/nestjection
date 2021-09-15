@@ -1,6 +1,6 @@
 {
   "name": "@haorama/nestjection",
-  "version": "0.4.0",
+  "version": "0.5.2",
   "description": "Nestjs integration for Objection+Knex",
   "scripts": {
     "prepublish": "tsc",
@@ -8,7 +8,8 @@
     "build:dev": "tsc -p tsconfig.json",
     "build:watch": "tsc -p tsconfig.json --watch",
     "prepublish:npm": "npm run build",
-    "dev": "nest start --path ./tests/tsconfig.json --config ./tests/nest-cli.json --watch"
+    "dev": "nest start --path ./tests/tsconfig.json --config ./tests/nest-cli.json --watch",
+    "publish:next": "npm publish --access public --tag next"
   },
   "repository": {
     "type": "git",
