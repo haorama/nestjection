@@ -6,7 +6,6 @@
     "prepublish": "tsc",
     "build": "rimraf -rf dist && tsc -p tsconfig.json",
     "build:dev": "tsc -p tsconfig.json",
-    "publish:npm": "npm publish --access public",
     "build:watch": "tsc -p tsconfig.json --watch",
     "prepublish:npm": "npm run build",
     "dev": "nest start --path ./tests/tsconfig.json --config ./tests/nest-cli.json --watch"
@@ -14,6 +13,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/haorama/nestjection.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -41,15 +43,19 @@
     "@nestjs/common": "^8.0.6",
     "@nestjs/core": "^8.0.6",
     "@nestjs/platform-fastify": "^8.0.6",
+    "@nestjs/testing": "^8.0.6",
     "@types/glob": "^7.1.4",
+    "@types/jest": "^27.0.1",
     "@types/node": "^15.3.1",
     "dotenv": "^10.0.0",
+    "jest": "^27.2.0",
     "knex": "^0.95.10",
     "mysql2": "^2.2.5",
     "objection": "^2.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.0.1",
+    "ts-jest": "^27.0.5",
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.2.4"

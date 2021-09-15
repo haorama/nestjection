@@ -8,6 +8,7 @@ export class Model extends ObjectionModel {
     static QueryBuilder = QueryBuilder
 
     static booted = false;
+    static connection?: string;
 
     constructor(attrs: object = {}) {
         super();
