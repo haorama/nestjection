@@ -8,7 +8,7 @@
     "build:dev": "tsc -p tsconfig.json",
     "build:watch": "tsc -p tsconfig.json --watch",
     "prepublish:npm": "npm run build",
-    "dev": "nest start --path ./tsconfig.test.json --watch"
+    "dev": "nest start --path ./tests/tsconfig.test.json --config ./tests/nest-cli.json --watch"
   },
   "repository": {
     "type": "git",
