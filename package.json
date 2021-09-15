@@ -1,6 +1,6 @@
 {
   "name": "@haorama/nestjection",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Nestjs integration for Objection+Knex",
   "scripts": {
     "prepublish": "tsc",

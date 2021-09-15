@@ -15,6 +15,7 @@ tsconfig.build.json
 nodemon.json
 .env
 yarn-error.log
+yarn.lock
 
 # github
 .github
