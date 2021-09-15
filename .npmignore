@@ -2,7 +2,7 @@
 .vscode
 
 # source
-src
+lib
 tests
 index.ts
 package-lock.json
@@ -14,6 +14,7 @@ tsconfig.build.json
 .test
 nodemon.json
 .env
+yarn-error.log
 
 # github
 .github
