@@ -1,13 +1,12 @@
 import { QueryBuilder as ObjectionQueryBuilder, Model as ObjectionModel, Page } from 'objection';
-import { arrayDiff } from '../utils';
 import { PaginationOptions } from '../interfaces';
 import { SimplePaginator } from '../paginators';
 
-export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends ObjectionQueryBuilder<Model, R> {
-    ArrayQueryBuilderType!: QueryBuilder<Model, Model[]>;
-    SingleQueryBuilderType!: QueryBuilder<Model, Model>;
-    NumberQueryBuilderType!: QueryBuilder<Model, number>;
-    PageQueryBuilderType!: QueryBuilder<Model, Page<Model>>;
+export class QueryBuilder<M extends ObjectionModel, R = M[]> extends ObjectionQueryBuilder<M, R> {
+    ArrayQueryBuilderType!: QueryBuilder<M, M[]>;
+    SingleQueryBuilderType!: QueryBuilder<M, M>;
+    NumberQueryBuilderType!: QueryBuilder<M, number>;
+    PageQueryBuilderType!: QueryBuilder<M, Page<M>>;
 
     constructor(modelClass: any) {
         super(modelClass);
@@ -28,7 +27,7 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
 
         const { results, total } = await this.page(options.page - 1, options.perPage);
 
-        return new SimplePaginator<Model>(results, total, options);
+        return new SimplePaginator<M>(results, total, options);
     }
 
     /**
@@ -57,32 +56,6 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
         const sum = await this.sum(`${name} as ${alias || name}`).context({skipFind: true});
 
         return Number(sum[0][alias || name] || 0);
-    }
-
-    /** Sync the intermediate tables with a list of ids or models, this method is unstable and maybe cannot be implement in one to one relation */
-    async sync(ids: any[], detaching: boolean = true, columns: any = {}) {
-        const current = (await this as any).map((r: Model) => r.$id());
-        const detach = arrayDiff(current, ids);
-        const attach = arrayDiff(ids, current);
-
-        if (detach.length && detaching) {
-            await this.alias('sync_pivot').whereIn('sync_pivot.id', detach).unrelate();
-        }
-
-        if (attach.length) {
-            await Promise.all(attach.map(async(id) => {
-                const clone = (this.clone() as any);
-
-                const compositeKeys = {
-                    id,
-                    ...columns
-                }
-
-                return await clone.relate(compositeKeys);
-            }))
-        }
-
-        return { attach, detach };
     }
 
     /** update or create model by given whereOptions keys */
@@ -136,7 +109,7 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
     }
 
     /** Check if model has the given relation */
-    whereHas(relation: keyof Model, callback?: (query: any) => void) {
+    whereHas(relation: keyof M, callback?: (query: any) => void) {
         const related = this.modelClass().relatedQuery(relation);
 
         if (callback) callback(related)
@@ -145,7 +118,7 @@ export class QueryBuilder<Model extends ObjectionModel, R = Model[]> extends Obj
     }
 
     /** Check if model doesnt have the given relation */
-    whereDoesntHave(relation: keyof Model) {
+    whereDoesntHave(relation: keyof M) {
         const related = this.modelClass().relatedQuery(relation);
 
         return this.whereNotExists(related);
