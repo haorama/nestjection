@@ -44,7 +44,7 @@ export class Model extends ObjectionModel {
             const casts = this.casts();
 
             for (const [key, value] of Object.entries(casts)) {
-                json[key] = castValue(this[key], value);
+                json[key] = castValue(json[key], value);
             }
         }
 
