@@ -1,16 +1,22 @@
-import { Injectable, OnApplicationBootstrap, OnApplicationShutdown, Logger } from "@nestjs/common";
-import KnexInstance, { Knex } from 'knex';
+import { Injectable, OnApplicationBootstrap, OnApplicationShutdown, Logger, OnModuleInit, Inject } from "@nestjs/common";
+import { Knex } from 'knex';
 import { Model } from "./orm";
 import { DatabaseModuleOptions } from "./interfaces";
 import glob from 'glob';
 import { resolve } from 'path';
 import { getFullfilepathWithoutExtension, isImportable, performanceNow, uniqueFilter } from "./utils";
+import { MODULE_OPTIONS } from "./constants";
+import { InjectKnex } from './decorators'
 
 @Injectable()
-export class DatabaseService implements OnApplicationShutdown, OnApplicationBootstrap {
-    private readonly logger = new Logger(DatabaseService.name);
+export class ModelExplorer implements OnApplicationShutdown,
+    OnApplicationBootstrap, OnModuleInit {
+    private readonly logger = new Logger(ModelExplorer.name);
 
-    knex: Knex;
+    constructor(
+        @Inject(MODULE_OPTIONS) private options: DatabaseModuleOptions,
+        @InjectKnex() private knex: Knex
+    ) {}
 
     models: any[] = [];
 
@@ -18,10 +24,14 @@ export class DatabaseService implements OnApplicationShutdown, OnApplicationBoot
         [key: string]: any
     }
 
+    onModuleInit() {
+        this.register()
+    }
+
     protected count: number = 0;
 
-    register(options: DatabaseModuleOptions) {
-        this.knex = KnexInstance(options.db);
+    register() {
+        const options = this.options;
         this.models = options.models;
 
         Model.knex(this.knex);
@@ -30,21 +40,23 @@ export class DatabaseService implements OnApplicationShutdown, OnApplicationBoot
     }
 
     async onApplicationShutdown() {
-        await this.knex.destroy()
+        await this.knex.destroy();
     }
 
     onApplicationBootstrap() {
         const models = this.getModels();
 
         models.map((model: any) => {
-            if (model && typeof model.boot === 'function') model.boot()
+            if (model && typeof model.boot === 'function') {
+                model.boot();
+            }
         })
     }
 
     private shouldShowDebug(debug?: boolean) {
         if (debug) {
             this.knex.on('query', (query) => this.setPerformance(query));
-            this.knex.on('query-response', (response, query) => this.getPerformance(response, query))
+            this.knex.on('query-response', (response, query) => this.getPerformance(response, query));
         }
     }
 

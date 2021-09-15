@@ -10,13 +10,6 @@ export function toSnakePluralCase(value: string) {
     return toSnakeCase(value) + 's';
 }
 
-function toCamelCase(value: string) {
-    return value
-        .replace(/\s(.)/g, function($1) { return $1.toUpperCase(); })
-        .replace(/\s/g, '')
-        .replace(/^(.)/, function($1) { return $1.toLowerCase(); });
-}
-
 /** Convert value to given "to" param */
 export function castValue(value: any, to: ModelCase) {
     if (to === 'number') {
