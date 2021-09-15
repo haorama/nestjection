@@ -10,6 +10,9 @@ export class MorphToManyRelation extends BelongsToManyRelation {
     type: string;
     id: string;
 
+    from: string;
+    to: string;
+
     constructor(target: Model, related: ModelClass, options?: MorphToManyOptions) {
         super(target, related);
 
@@ -20,15 +23,21 @@ export class MorphToManyRelation extends BelongsToManyRelation {
         this.type = this.options.type ?? `${this.options.morphName}_type`;
         this.id = this.options.id ?? `${this.options.morphName}_id`;
         this.table = this.options.table ?? `${this.options.morphName}s`;
+
+        this.from = this.options.from ?? 'id';
+
+        this.to = this.options.to ?? 'id';
     }
 
     getRelation() {
+        const superRelation = super.getRelation();
+
         this.setMorphAttribute();
 
         const typeValue = this.options.typeValue || this.target.name;
 
         const relation = {
-            ...super.getRelation(),
+            ...superRelation,
             filter: (builder: QueryBuilder<any>) => {
                 builder.where(this.type, typeValue);
             },
@@ -36,8 +45,8 @@ export class MorphToManyRelation extends BelongsToManyRelation {
                 model[this.type] = typeValue;
             },
             join: {
-                ...super.getRelation().join,
-                to: `${this.related.tableName}.${this.id}`,
+                from: `${this.target.tableName}.${this.from}`,
+                to: `${this.related.tableName}.${this.to}`,
                 through: {
                     from: `${this.table}.${this.relatedFK}`,
                     to: `${this.table}.${this.id}`,
