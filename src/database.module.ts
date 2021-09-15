@@ -12,8 +12,8 @@ export class DatabaseModule {
         return {
             global: options.global ?? true,
             module: DatabaseModule,
-            providers: [...providers, optionsProvider, ModelExplorer],
-            exports: [...providers]
+            providers: [ModelExplorer, optionsProvider, ...providers],
+            exports: providers
         }
     }
 }

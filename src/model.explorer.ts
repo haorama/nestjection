@@ -1,21 +1,22 @@
-import { Injectable, OnApplicationBootstrap, OnApplicationShutdown, Logger, OnModuleInit, Inject } from "@nestjs/common";
+import { Injectable, OnApplicationBootstrap, Logger, OnModuleInit, Inject } from "@nestjs/common";
 import { Knex } from 'knex';
 import { Model } from "./orm";
 import { DatabaseModuleOptions } from "./interfaces";
 import glob from 'glob';
 import { resolve } from 'path';
-import { getFullfilepathWithoutExtension, isImportable, performanceNow, uniqueFilter } from "./utils";
+import { getConnectionToken, getFullfilepathWithoutExtension, isImportable, performanceNow, uniqueFilter } from "./utils";
 import { MODULE_OPTIONS } from "./constants";
 import { InjectKnex } from './decorators'
+import { ModuleRef } from "@nestjs/core";
 
 @Injectable()
-export class ModelExplorer implements OnApplicationShutdown,
-    OnApplicationBootstrap, OnModuleInit {
+export class ModelExplorer implements OnApplicationBootstrap, OnModuleInit {
     private readonly logger = new Logger(ModelExplorer.name);
 
     constructor(
+        @Inject(ModuleRef) private readonly moduleRef: ModuleRef,
         @Inject(MODULE_OPTIONS) private options: DatabaseModuleOptions,
-        @InjectKnex() private knex: Knex
+        @InjectKnex() private knex: Knex,
     ) {}
 
     models: any[] = [];
@@ -39,18 +40,27 @@ export class ModelExplorer implements OnApplicationShutdown,
         this.shouldShowDebug(options.debug);
     }
 
-    async onApplicationShutdown() {
-        await this.knex.destroy();
-    }
-
     onApplicationBootstrap() {
         const models = this.getModels();
 
-        models.map((model: any) => {
+        models.map((model: typeof Model) => {
             if (model && typeof model.boot === 'function') {
-                model.boot();
+                this.bootModel(model)
             }
         })
+    }
+
+    private bootModel(model: typeof Model) {
+        if (model.connection) {
+            try {
+                const conn = this.moduleRef.get(getConnectionToken(model.connection))
+                model.knex(conn)
+            } catch (error) {
+                this.logger.error(`No connection name: ${model.connection} in your connections options`)
+            }
+        }
+
+        model.boot();
     }
 
     private shouldShowDebug(debug?: boolean) {
