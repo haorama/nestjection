@@ -3,9 +3,10 @@ import { HasManyThroughRelation } from "../../orm";
 import { addRelation } from "../../storages/relation.storage";
 import { ModelClass } from "../../types";
 
-export function HasManyThrough(modelClass: ModelClass, throughTableOrOptions: string | HasManyThroughOptions): Function;
+export function HasManyThrough(modelClass: ModelClass, table: string): PropertyDecorator;
+export function HasManyThrough(modelClass: ModelClass, options: HasManyThroughOptions): PropertyDecorator;
 
-export function HasManyThrough(modelClass: ModelClass, throughTableOrOptions: string | HasManyThroughOptions): Function {
+export function HasManyThrough(modelClass: ModelClass, throughTableOrOptions: string | HasManyThroughOptions): PropertyDecorator {
     return (target: any, propertyKey: string) => {
         let hasManyThroughOptions: any = {};
 

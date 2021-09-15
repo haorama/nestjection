@@ -3,7 +3,7 @@ import { BelongsToManyRelation } from "../../orm";
 import { addRelation, getPreparedRelationOptions } from "../../storages/relation.storage";
 import { ModelClass } from "../../types";
 
-export function BelongsToMany(modelClass: ModelClass, options?: BelongsToManyOptions): Function {
+export function BelongsToMany(modelClass: ModelClass, options?: BelongsToManyOptions): PropertyDecorator {
     return (target: any, propertyKey: string) => {
         const belongsToManyOptions: BelongsToManyOptions = getPreparedRelationOptions(options);
 
