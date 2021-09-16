@@ -1,5 +1,5 @@
 import { QueryBuilder } from "..";
-import { MorphToManyOptions } from "../../interfaces/relations/morph-to-many.options";
+import { MorphToManyOptions } from "../..";
 import { Relation } from "./relation";
 
 export class MorphToManyRelation extends Relation<MorphToManyOptions> {

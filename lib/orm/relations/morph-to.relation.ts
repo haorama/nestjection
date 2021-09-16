@@ -1,4 +1,4 @@
-import { MorphToOptions } from "../../interfaces/relations/morph-to.options";
+import { MorphToOptions } from "../..";
 import { Relation } from "./relation";
 
 export class MorphToRelation extends Relation<MorphToOptions> {
