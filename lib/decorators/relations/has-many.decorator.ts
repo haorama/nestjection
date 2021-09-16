@@ -4,10 +4,8 @@ import { addRelation, getPreparedRelationOptions } from "../../storages/relation
 import { ModelClass } from "../../types";
 
 export function HasMany(modelClass: ModelClass, options?: HasManyOptions): PropertyDecorator {
-    return (target: any, propertyKey: string) => {
-        const hasManyOptions: HasManyOptions = getPreparedRelationOptions(options);
-
-        if (!hasManyOptions.as) hasManyOptions.as = propertyKey;
+    return (target: any, key: string) => {
+        const hasManyOptions: HasManyOptions = getPreparedRelationOptions(key, options);
 
         addRelation(target, new HasManyRelation(target, modelClass, hasManyOptions));
     };

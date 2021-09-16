@@ -5,7 +5,6 @@ import { ModelClass } from "../../types";
 
 export function MorphOne(modelClass: ModelClass, morphName: string): PropertyDecorator;
 export function MorphOne(modelClass: ModelClass, options: MorphOneOptions): PropertyDecorator;
-
 export function MorphOne(modelClass: ModelClass, morphNameOrOptions: string | MorphOneOptions): PropertyDecorator {
     return (target: any, propertyKey: string) => {
         let morphOneOptions: any = {};

@@ -1,5 +1,7 @@
+import { BaseRelationOptions } from "../";
+
 // Base Polymorphic relation options
-export interface MorphOptions {
+export interface MorphOptions extends BaseRelationOptions {
     morphName: string;
     id?: string;
 

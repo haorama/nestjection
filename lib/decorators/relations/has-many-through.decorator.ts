@@ -3,21 +3,20 @@ import { HasManyThroughRelation } from "../../orm";
 import { addRelation } from "../../storages/relation.storage";
 import { ModelClass } from "../../types";
 
-export function HasManyThrough(modelClass: ModelClass, table: string): PropertyDecorator;
+export function HasManyThrough(modelClass: ModelClass, through: ModelClass): PropertyDecorator;
 export function HasManyThrough(modelClass: ModelClass, options: HasManyThroughOptions): PropertyDecorator;
+export function HasManyThrough(modelClass: ModelClass, arg: ModelClass | HasManyThroughOptions): PropertyDecorator {
+    return (target: any, key: string) => {
+        let options: HasManyThroughOptions = {};
 
-export function HasManyThrough(modelClass: ModelClass, throughTableOrOptions: string | HasManyThroughOptions): PropertyDecorator {
-    return (target: any, propertyKey: string) => {
-        let hasManyThroughOptions: any = {};
-
-        if (typeof throughTableOrOptions === 'string') {
-            hasManyThroughOptions.through = throughTableOrOptions;
+        if (typeof arg === 'object') {
+            options = arg;
         } else {
-            hasManyThroughOptions = throughTableOrOptions;
+            options.through = arg;
         }
 
-        hasManyThroughOptions.as = propertyKey;
+        options.as = key;
 
-        addRelation(target, new HasManyThroughRelation(target, modelClass, hasManyThroughOptions))
+        addRelation(target, new HasManyThroughRelation(target, modelClass, options))
     }
 }

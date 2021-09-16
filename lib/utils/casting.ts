@@ -1,4 +1,4 @@
-import { ModelCase } from "../types";
+import { PropertyCast } from "../types";
 
 export function toSnakeCase(value: string) {
     return value.replace(/\W+/g, " ").split(/ |\B(?=[A-Z])/)
@@ -11,7 +11,7 @@ export function toSnakePluralCase(value: string) {
 }
 
 /** Convert value to given "to" param */
-export function castValue(value: any, to: ModelCase) {
+export function castValue(value: any, to: PropertyCast) {
     if (to === 'number') {
         return parseInt(value);
     }

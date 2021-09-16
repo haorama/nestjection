@@ -1,14 +1,13 @@
-import { QueryBuilder } from "../../orm";
+import { AnyModelConstructor, ModelClassFactory, Modifier, QueryBuilderType, RelationJoin, RelationMappingHook } from "objection";
 
+/**
+ * All relation mapping from objection are optional so everything is partial
+ * For now no relation and modelClass from relation mapping
+ */
 export interface BaseRelationOptions {
-    /** relation property name */
-    as?: string | symbol;
-
-    /** local key on model table */
-    from?: string;
-
-    /** foreign key on related table */
-    to?: string;
-
-    filter?: (query: QueryBuilder<any>) => void
+  as?: string;
+  join?: Partial<RelationJoin>
+  modify?: ModelClassFactory | AnyModelConstructor | string;
+  filter?: Modifier<QueryBuilderType<any>>
+  beforeInsert?: RelationMappingHook<any>
 }

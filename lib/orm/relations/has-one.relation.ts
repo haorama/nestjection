@@ -1,27 +1,15 @@
 import { HasOneOptions } from "../../interfaces";
 import { ModelClass } from "../../types";
 import { Model } from "../model";
-import { BaseRelation } from "./base.relation";
+import { Relation } from "./relation";
 
-export class HasOneRelation extends BaseRelation {
-    options?: HasOneOptions;
-
-    constructor(target: Model, relatedClass: ModelClass, options: HasOneOptions = {}) {
-        super(target, relatedClass);
-
-        this.options = options;
-    }
-
+export class HasOneRelation extends Relation<HasOneOptions> {
     getRelation() {
-        this.setForeignKey(this.options.foreignKey);
-        this.setLocalKey(this.options.localKey);
-
-        return this.mergeRelation({
-            modelClass: this.relatedClass,
+        return this.createRelation({
             relation: Model.HasOneRelation,
             join: {
-                from: `${this.target.tableName}.${this.localKey}`,
-                to: `${this.related.tableName}.${this.foreignKey}`,
+                from: this.joinFrom,
+                to: this.joinTo,
             }
         })
     }

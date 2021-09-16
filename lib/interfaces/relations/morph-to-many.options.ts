@@ -1,5 +1,5 @@
-import { BelongsToManyOptions, MorphOptions } from ".";
+import { MorphOptions } from ".";
 
-export interface MorphToManyOptions extends MorphOptions, BelongsToManyOptions {
-
+export interface MorphToManyOptions extends MorphOptions {
+  table?: string;
 }

@@ -36,9 +36,10 @@ export class ModelSerializerInterceptor<T> implements NestInterceptor <T, Respon
      * also hide or remove the hidden fields if data is instance of model
      */
     transformToPlain(data: any, ctx?: ExecutionContext) {
-        if (data instanceof Model) {
-            return data.serialize()
-        }
+        // if (data instanceof Model) {
+        //     console.log(data)
+        //     return data.serialize()
+        // }
 
         if (data instanceof SimplePaginator) {
             return data.toResponse();
@@ -57,6 +58,10 @@ export class ModelSerializerInterceptor<T> implements NestInterceptor <T, Respon
             if (Array.isArray(value)) {
                 data[key] = value.map(v => this.transformToPlain(v))
             }
+        }
+
+        if (data instanceof Model) {
+            return data.serialize()
         }
 
         return data;

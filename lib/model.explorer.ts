@@ -2,8 +2,8 @@ import { Injectable, OnApplicationBootstrap, Logger, OnModuleInit, Inject } from
 import { Knex } from 'knex';
 import { Model } from "./orm";
 import { DatabaseModuleOptions } from "./interfaces";
-import glob from 'glob';
-import { resolve } from 'path';
+import * as glob from 'glob';
+import { resolve, extname } from 'path';
 import { getConnectionToken, getFullfilepathWithoutExtension, isImportable, performanceNow, uniqueFilter } from "./utils";
 import { MODULE_OPTIONS } from "./constants";
 import { InjectKnex } from './decorators'
@@ -101,11 +101,12 @@ export class ModelExplorer implements OnApplicationBootstrap, OnModuleInit {
     }
 
     protected getModels() {
-        // const hasSupportedExtension = (path: string) => ['.ts', '.js'].indexOf(extname(path)) !== -1;
+        const hasSupportedExtension = (path: string) => ['.ts', '.js'].indexOf(extname(path)) !== -1;
 
         return this.models.reduce((models: any[], dir) => {
             const _models = glob.sync(dir)
                 .filter(isImportable)
+                .filter(hasSupportedExtension)
                 .map(getFullfilepathWithoutExtension)
                 .filter(uniqueFilter)
                 .map(fullPath => {

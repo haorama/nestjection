@@ -5,9 +5,7 @@ import { ModelClass } from "../../types";
 
 export function HasOne(modelClass: ModelClass, options?: HasOneOptions): PropertyDecorator {
     return (target: any, propertyKey: string) => {
-        const hasOneOptions: HasOneOptions = getPreparedRelationOptions(options);
-
-        if (!hasOneOptions.as) hasOneOptions.as = propertyKey;
+        const hasOneOptions: HasOneOptions = getPreparedRelationOptions(propertyKey, options);
 
         addRelation(target, new HasOneRelation(target, modelClass, hasOneOptions));
     };

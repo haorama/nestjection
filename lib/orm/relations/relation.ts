@@ -1,36 +1,66 @@
-import { BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasManyThroughOptions, HasOneOptions, MorphOneOptions } from "../../interfaces";
-import { ModelClass } from "../../types";
 import { Model } from "../model";
-import { BelongsToManyRelation, BelongsToRelation, HasManyThroughRelation, HasManyRelation, HasOneRelation, MorphOneRelation } from "./";
+import Objection, { RelationMapping } from "objection";
+import { ModelClass } from "../../types";
+import { BaseRelationOptions } from '../../interfaces';
+import { objExcept, toSnakeCase, pluralize } from "../../utils";
+import merge from 'lodash.merge';
 
-export class Relation {
-    target: Model;
+export abstract class Relation<O extends BaseRelationOptions> {
+    options?: O;
 
-    constructor(target: Model) {
-        this.target = target;
+    targetClass: Model;
+    relatedClass: ModelClass;
+
+    protected inverse: boolean = false;
+
+    constructor(target: Model, related: ModelClass, options?: O) {
+        this.options = options;
+        this.targetClass = target;
+        this.relatedClass = related;
     }
 
-    belongsTo(relatedClass: ModelClass, options: BelongsToOptions = {}) {
-        return new BelongsToRelation(this.target, relatedClass, options).getRelation();
+    get target(): Objection.ModelClass<any> {
+        return this.targetClass.$modelClass
     }
 
-    hasMany(relatedClass: ModelClass, options: HasManyOptions = {}) {
-        return new HasManyRelation(this.target, relatedClass, options).getRelation();
+    get related(): Objection.ModelClass<any> {
+        return (this.relatedClass() as any)
     }
 
-    hasOne(relatedClass: ModelClass, options: HasOneOptions = {}) {
-        return new HasOneRelation(this.target, relatedClass, options).getRelation();
+    abstract getRelation(): RelationMapping<any>;
+
+    protected createRelation(data: Omit<RelationMapping<any>, 'modelClass'>): RelationMapping<any> {
+        const exclude = ['as', 'through', 'type', 'morphName', 'id', 'typeValue']; //possible options across relation
+
+        const relation: any = {
+            modelClass: this.relatedClass,
+            ...merge(data, objExcept(this.options, exclude))
+        };
+
+        return relation;
     }
 
-    belongsToMany(relatedClass: ModelClass, options: BelongsToManyOptions = {}) {
-        return new BelongsToManyRelation(this.target, relatedClass, options).getRelation();
+    prepareOptions?(): any
+
+    /** Default join.from */
+    get joinFrom() {
+        const column = this.inverse ? `${toSnakeCase(this.related.name)}_id` : 'id';
+
+        return `${this.target.tableName}.${column}`
     }
 
-    hasManyThrough(relatedClass: ModelClass, options: HasManyThroughOptions) {
-        return new HasManyThroughRelation(this.target, relatedClass, options).getRelation();
+    /** Default join.to */
+    get joinTo() {
+        const column = this.inverse ? 'id' : `${toSnakeCase(this.target.name)}_id` ;
+
+        return `${this.related.tableName}.${column}`;
     }
 
-    morphOne(relatedClass: ModelClass, options: MorphOneOptions) {
-        return new MorphOneRelation(this.target, relatedClass, options).getRelation();
+    getSingularKey(name: string) {
+        return pluralize.singular(toSnakeCase(name)).toLowerCase()
+    }
+
+    getPluralKey(name: string) {
+        return pluralize.plural(toSnakeCase(name)).toLowerCase();
     }
 }

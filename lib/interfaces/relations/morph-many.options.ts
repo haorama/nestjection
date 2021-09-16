@@ -1,5 +1,3 @@
-import { HasManyOptions, MorphOptions } from ".";
+import { MorphOptions } from ".";
 
-export interface MorphManyOptions extends HasManyOptions, MorphOptions {
-
-}
+export interface MorphManyOptions extends MorphOptions {}

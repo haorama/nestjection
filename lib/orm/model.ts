@@ -29,7 +29,7 @@ export class Model extends ObjectionModel {
 
     /** Casting attributes / properties */
     casts(): object {
-        return {}
+        return null
     }
 
     /** Serialize the excluded property */
@@ -77,6 +77,10 @@ export class Model extends ObjectionModel {
         }
 
         relations.map(relation => {
+            if (relation.prepareOptions) {
+                relation.prepareOptions();
+            };
+
             mappings[relation.options.as] = relation.getRelation();
         })
 

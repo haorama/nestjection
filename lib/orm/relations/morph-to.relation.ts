@@ -1,36 +1,30 @@
 import { MorphToOptions } from "../../interfaces/relations/morph-to.options";
-import { ModelClass } from "../../types";
-import { Model } from "../model";
-import { BelongsToRelation } from "./belongs-to.relation";
+import { Relation } from "./relation";
 
-export class MorphToRelation extends BelongsToRelation {
-    options: MorphToOptions;
-
+export class MorphToRelation extends Relation<MorphToOptions> {
     type: string;
     id: string;
+    protected inverse = true;
 
-    constructor(target: Model, related: ModelClass, options?: MorphToOptions) {
-        super(target, related);
-
-        this.options = options;
-    }
-
-    setMorphAttribute() {
+    prepareOptions() {
         this.type = this.options.type ?? `${this.options.morphName}_type`;
         this.id = this.options.id ?? `${this.options.morphName}_id`;
     }
 
     getRelation() {
-        this.setMorphAttribute();
-
-        const relation = {
-            ...super.getRelation(),
+        return this.createRelation({
+            relation: this.target.BelongsToOneRelation,
             join: {
-                to: `${this.related.tableName}.${this.ownerKey}`,
-                from: `${this.target.tableName}.${this.id}`,
+                from: this.joinFrom,
+                to: this.joinTo,
+            },
+            beforeInsert: (model) => {
+                model[this.type] = this.related.name
             }
-        }
+        })
+    }
 
-        return relation;
+    get joinFrom() {
+        return `${this.target.tableName}.${this.id}`
     }
 }

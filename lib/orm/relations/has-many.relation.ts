@@ -1,27 +1,14 @@
+import { RelationMapping } from "objection";
 import { HasManyOptions } from "../../interfaces";
-import { ModelClass } from "../../types";
-import { Model } from "../model";
-import { BaseRelation } from "./base.relation";
+import { Relation } from "./relation";
 
-export class HasManyRelation extends BaseRelation {
-    options?: HasManyOptions;
-
-    constructor(target: Model, relatedClass: ModelClass, options: HasManyOptions = {}) {
-        super(target, relatedClass);
-
-        this.options = options;
-    }
-
-    getRelation() {
-        this.setForeignKey(this.options.foreignKey);
-        this.setLocalKey(this.options.localKey)
-
-        return this.mergeRelation({
-            modelClass: this.relatedClass,
-            relation: Model.HasManyRelation,
+export class HasManyRelation extends Relation<HasManyOptions> {
+    getRelation(): RelationMapping<any> {
+        return this.createRelation({
+            relation: this.target.HasManyRelation,
             join: {
-                from: `${this.target.tableName}.${this.localKey}`,
-                to: `${this.related.tableName}.${this.foreignKey}`,
+                from: this.joinFrom,
+                to: this.joinTo,
             }
         })
     }

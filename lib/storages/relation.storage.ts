@@ -1,19 +1,19 @@
 import 'reflect-metadata';
 import { RELATIONS_KEY } from '../constants';
-import { MorphManyOptions, BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasManyThroughOptions, HasOneOptions, MorphOneOptions } from "../interfaces";
-import { BaseRelation } from "../orm";
+import { MorphManyOptions, MorphToManyOptions, BelongsToManyOptions, BelongsToOptions, HasManyOptions, HasManyThroughOptions, HasOneOptions, MorphOneOptions } from "../interfaces";
+import { Relation } from '../orm/relations/relation';
 
-export type TRelationOptions =
-  | BelongsToOptions
-  | HasManyOptions
-  | HasOneOptions
-  | BelongsToManyOptions
-  | MorphOneOptions
-  | HasManyThroughOptions
-  | MorphManyOptions
+export type TRelationOptions = BelongsToOptions
+    | HasManyOptions
+    | BelongsToManyOptions
+    | HasManyThroughOptions
+    | MorphOneOptions
+    | MorphManyOptions
+    | HasOneOptions
+    | MorphToManyOptions
 
 /** Store relation from the model class */
-export function addRelation(target: any, relation: BaseRelation) {
+export function addRelation(target: any, relation: Relation<any>) {
     let relations = getRelations(target);
 
     if (!relations) {
@@ -25,12 +25,12 @@ export function addRelation(target: any, relation: BaseRelation) {
     setRelations(target, relations);
 }
 
-export function setRelations(target: any, relations: BaseRelation[]) {
+export function setRelations(target: any, relations: Relation<any>[]) {
     Reflect.defineMetadata(RELATIONS_KEY, relations, target);
 }
 
 /** Return relations metadata from model */
-export function getRelations(target: any): BaseRelation[] | undefined {
+export function getRelations(target: any): Relation<any>[] | undefined {
     const relations = Reflect.getMetadata(RELATIONS_KEY, target);
 
     if (relations) {
@@ -38,11 +38,16 @@ export function getRelations(target: any): BaseRelation[] | undefined {
     }
 }
 
-export function getPreparedRelationOptions(options?: TRelationOptions) {
-    let relationOptions: TRelationOptions = {};
+export function getPreparedRelationOptions(propertyKey: string, options?: TRelationOptions) {
+    const as = options?.as || propertyKey;
+
+    let relationOptions: TRelationOptions = {as} as any;
 
     if (options) {
-        relationOptions = { ...options };
+        relationOptions = {
+            as,
+            ...options
+        };
     }
 
     return relationOptions;

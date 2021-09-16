@@ -1,6 +1,3 @@
-import { BaseRelationOptions } from "./base-relation.options";
+import { BaseRelationOptions } from "../";
 
-export interface HasManyOptions extends BaseRelationOptions {
-    foreignKey?: string;
-    localKey?: string;
-}
+export interface HasManyOptions extends BaseRelationOptions {}
