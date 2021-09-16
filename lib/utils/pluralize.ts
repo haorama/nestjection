@@ -39,6 +39,7 @@ function interpolate(str: string, args: any[] | IArguments) {
 
 function replace(word: string, rule: string) {
   return word.replace(rule[0], function (match, index) {
+    /*eslint prefer-rest-params: 0*/
     const result = interpolate(rule[1], arguments);
 
     if (match === '') {
@@ -87,12 +88,7 @@ function replaceWord(replaceMap: object, keepMap: object, rules: any[]) {
   };
 }
 
-function checkWord(
-  replaceMap: any,
-  keepMap: any,
-  rules: any[],
-  bool?: boolean,
-) {
+function checkWord(replaceMap: any, keepMap: any, rules: any[]) {
   return function (word: string) {
     const token = word.toLowerCase();
 

@@ -1,5 +1,4 @@
 import { HasOneOptions } from '../../interfaces';
-import { ModelClass } from '../../types';
 import { Model } from '../model';
 import { Relation } from './relation';
 
