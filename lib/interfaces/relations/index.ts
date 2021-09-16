@@ -1,5 +1,12 @@
-import { AnyModelConstructor, ModelClassFactory, Modifier, QueryBuilderType, RelationJoin, RelationMappingHook } from "objection";
-import { ModelClass } from "../../types";
+import {
+  AnyModelConstructor,
+  ModelClassFactory,
+  Modifier,
+  QueryBuilderType,
+  RelationJoin,
+  RelationMappingHook,
+} from 'objection';
+import { ModelClass } from '../../types';
 
 /**
  * All relation mapping from objection are optional so everything is partial
@@ -7,10 +14,10 @@ import { ModelClass } from "../../types";
  */
 export interface BaseRelationOptions {
   as?: string;
-  join?: Partial<RelationJoin>
+  join?: Partial<RelationJoin>;
   modify?: ModelClassFactory | AnyModelConstructor | string;
-  filter?: Modifier<QueryBuilderType<any>>
-  beforeInsert?: RelationMappingHook<any>
+  filter?: Modifier<QueryBuilderType<any>>;
+  beforeInsert?: RelationMappingHook<any>;
 }
 
 // Base Polymorphic relation options
@@ -25,7 +32,7 @@ export interface MorphOptions extends BaseRelationOptions {
   typeValue?: string;
 }
 
-export interface BelongsToOptions extends BaseRelationOptions {}
+export type BelongsToOptions = BaseRelationOptions;
 
 export interface BelongsToManyOptions extends BaseRelationOptions {
   /** Intermediate table */
@@ -36,16 +43,16 @@ export interface HasManyThroughOptions extends BaseRelationOptions {
   through?: ModelClass;
 }
 
-export interface MorphManyOptions extends MorphOptions {}
+export type MorphManyOptions = MorphOptions;
 
-export interface HasManyOptions extends BaseRelationOptions {}
+export type HasManyOptions = BaseRelationOptions;
 
-export interface HasOneOptions extends BaseRelationOptions {}
+export type HasOneOptions = BaseRelationOptions;
 
-export interface MorphOneOptions extends MorphOptions {}
+export type MorphOneOptions = MorphOptions;
 
 export interface MorphToManyOptions extends MorphOptions {
   table?: string;
 }
 
-export interface MorphToOptions extends MorphOptions {}
+export type MorphToOptions = MorphOptions;

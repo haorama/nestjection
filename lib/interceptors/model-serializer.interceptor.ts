@@ -1,69 +1,82 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler,} from '@nestjs/common';
+import {
+  Injectable,
+  NestInterceptor,
+  ExecutionContext,
+  CallHandler,
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Model } from '../orm';
 import { SimplePaginator } from '../paginators';
 
 export interface Response<T> {
-    data: T
+  data: T;
 }
 
 @Injectable()
-export class ModelSerializerInterceptor<T> implements NestInterceptor <T, Response<T> > {
-    intercept(context: ExecutionContext,next: CallHandler,): Observable<Response<T> > {
-        return next.handle().pipe(map(data => {
-            return this.serialize(data, context)
-        }));
+export class ModelSerializerInterceptor<T>
+  implements NestInterceptor<T, Response<T>>
+{
+  intercept(
+    context: ExecutionContext,
+    next: CallHandler,
+  ): Observable<Response<T>> {
+    return next.handle().pipe(
+      map((data) => {
+        return this.serialize(data);
+      }),
+    );
+  }
+
+  /**
+   * Serialize incoming response data
+   */
+  serialize(data: any) {
+    const isObject = data !== null && typeof data === 'object';
+    const isArray = Array.isArray(data);
+
+    if (!isObject && !isArray) {
+      return data;
     }
 
-    /**
-     * Serialize incoming response data
-     */
-    serialize(data: any, ctx: ExecutionContext) {
-        const isObject = data !== null && typeof data === 'object';
-        const isArray = Array.isArray(data);
+    return isArray
+      ? data.map((item: any) => this.transformToPlain(item))
+      : this.transformToPlain(data);
+  }
 
-        if (!isObject && !isArray) {
-            return data;
-        }
+  /**
+   * Transform data into a jsonable format,
+   * also hide or remove the hidden fields if data is instance of model
+   */
+  transformToPlain(data: any) {
+    // if (data instanceof Model) {
+    //     console.log(data)
+    //     return data.serialize()
+    // }
 
-        return isArray ? data.map((item: any) => this.transformToPlain(item, ctx) )
-            : this.transformToPlain(data, ctx)
+    if (data instanceof SimplePaginator) {
+      return data.toResponse();
     }
 
-    /**
-     * Transform data into a jsonable format,
-     * also hide or remove the hidden fields if data is instance of model
-     */
-    transformToPlain(data: any, ctx?: ExecutionContext) {
-        // if (data instanceof Model) {
-        //     console.log(data)
-        //     return data.serialize()
-        // }
+    return this.deepCheck(data);
+  }
 
-        if (data instanceof SimplePaginator) {
-            return data.toResponse();
-        }
+  /** Dont know how to named this method */
+  deepCheck(data: any) {
+    for (const [key, value] of Object.entries(data)) {
+      if (value instanceof Model) {
+        data[key] = this.transformToPlain(value);
+      }
 
-        return this.deepCheck(data);
+      if (Array.isArray(value)) {
+        data[key] = value.map((v) => this.transformToPlain(v));
+      }
     }
 
-    /** Dont know how to named this method */
-    deepCheck(data: any) {
-        for (const [key, value] of Object.entries(data)) {
-            if (value instanceof Model) {
-                data[key] = this.transformToPlain(value)
-            }
-
-            if (Array.isArray(value)) {
-                data[key] = value.map(v => this.transformToPlain(v))
-            }
-        }
-
-        if (data instanceof Model) {
-            return data.serialize()
-        }
-
-        return data;
+    if (data instanceof Model) {
+      return data.serialize();
     }
+
+    return data;
+  }
 }

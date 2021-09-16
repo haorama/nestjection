@@ -1,4 +1,4 @@
-import { Model } from "../orm";
+import { Model } from '../orm';
 
 export type ModelType = new () => Model;
 

@@ -15,14 +15,17 @@ export interface DatabaseOptionsFactory {
   createOptions(): DatabaseModuleOptions | Promise<DatabaseModuleOptions>;
 }
 
-export interface DatabaseModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
+export interface DatabaseModuleAsyncOptions
+  extends Pick<ModuleMetadata, 'imports'> {
   name?: string;
 
   useExisting?: Type<DatabaseOptionsFactory>;
 
   useClass?: Type<DatabaseOptionsFactory>;
 
-  useFactory?: (...args: any[]) => DatabaseModuleOptions | Promise<DatabaseModuleOptions>;
+  useFactory?: (
+    ...args: any[]
+  ) => DatabaseModuleOptions | Promise<DatabaseModuleOptions>;
 
-  inject?: FactoryProvider['inject']
+  inject?: FactoryProvider['inject'];
 }

@@ -39,7 +39,7 @@ function interpolate(str: string, args: any[] | IArguments) {
 
 function replace(word: string, rule: string) {
   return word.replace(rule[0], function (match, index) {
-    let result = interpolate(rule[1], arguments);
+    const result = interpolate(rule[1], arguments);
 
     if (match === '') {
       return restoreCase(word[index - 1], result);
@@ -55,11 +55,11 @@ function sanitizeWord(token: string, word: string, rules: any[]) {
     return word;
   }
 
-  var len = rules.length;
+  let len = rules.length;
 
   // Iterate over the sanitization rules and use the first one to match.
   while (len--) {
-    var rule = rules[len];
+    const rule = rules[len];
 
     if (rule[0].test(word)) return replace(word, rule);
   }
@@ -70,7 +70,7 @@ function sanitizeWord(token: string, word: string, rules: any[]) {
 function replaceWord(replaceMap: object, keepMap: object, rules: any[]) {
   return function (word: string) {
     // Get the correct token and case restoration functions.
-    var token = word.toLowerCase();
+    const token = word.toLowerCase();
 
     // Check against the keep object map.
     if (keepMap.hasOwnProperty(token)) {
@@ -87,9 +87,14 @@ function replaceWord(replaceMap: object, keepMap: object, rules: any[]) {
   };
 }
 
-function checkWord(replaceMap: any, keepMap: any, rules: any[], bool?: boolean) {
+function checkWord(
+  replaceMap: any,
+  keepMap: any,
+  rules: any[],
+  bool?: boolean,
+) {
   return function (word: string) {
-    var token = word.toLowerCase();
+    const token = word.toLowerCase();
 
     if (keepMap.hasOwnProperty(token)) return true;
     if (replaceMap.hasOwnProperty(token)) return false;
@@ -99,7 +104,7 @@ function checkWord(replaceMap: any, keepMap: any, rules: any[], bool?: boolean) 
 }
 
 export function pluralize(word: string, count: number, inclusive: boolean) {
-  let pluralized =
+  const pluralized =
     count === 1 ? pluralize.singular(word) : pluralize.plural(word);
 
   return (inclusive ? count + ' ' : '') + pluralized;
@@ -127,7 +132,7 @@ pluralize.isPlural = checkWord(irregularSingles, irregularPlurals, pluralRules);
 pluralize.singular = replaceWord(
   irregularPlurals,
   irregularSingles,
-  singularRules
+  singularRules,
 );
 
 /**
@@ -138,14 +143,20 @@ pluralize.singular = replaceWord(
 pluralize.isSingular = checkWord(
   irregularPlurals,
   irregularSingles,
-  singularRules
+  singularRules,
 );
 
-pluralize.addPluralRule = function (rule: string | RegExp, replacement: string) {
+pluralize.addPluralRule = function (
+  rule: string | RegExp,
+  replacement: string,
+) {
   pluralRules.push([sanitizeRule(rule), replacement]);
 };
 
-pluralize.addSingularRule = function (rule: string | RegExp, replacement: string) {
+pluralize.addSingularRule = function (
+  rule: string | RegExp,
+  replacement: string,
+) {
   singularRules.push([sanitizeRule(rule), replacement]);
 };
 
