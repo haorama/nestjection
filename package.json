@@ -9,7 +9,8 @@
     "build:watch": "tsc -p tsconfig.json --watch",
     "prepublish:npm": "npm run build",
     "dev": "nest start --path ./tests/tsconfig.json --config ./tests/nest-cli.json --watch",
-    "publish:next": "npm publish --access public --tag next"
+    "publish:next": "npm publish --access public --tag next",
+    "lint": "eslint \"lib/**/*.ts\" --fix"
   },
   "repository": {
     "type": "git",
