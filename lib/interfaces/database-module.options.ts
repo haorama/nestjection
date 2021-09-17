@@ -1,15 +1,31 @@
+import { FactoryProvider, ModuleMetadata, Type } from '@nestjs/common';
 import { Knex } from 'knex';
 
 export interface DatabaseModuleOptions {
-    global?: boolean;
+  models?: any;
+  baseModel?: any;
 
-    models?: any;
+  /** Activate debug to log the query and its bindings */
+  debug?: boolean;
 
-    /** Activate debug to log the query and its bindings */
-    debug?: boolean;
+  config: Knex.Config;
+}
 
-    /** Default Database Connection Name, specify your connections using connections options */
-    default: string;
+export interface DatabaseOptionsFactory {
+  createOptions(): DatabaseModuleOptions | Promise<DatabaseModuleOptions>;
+}
 
-    connections: Record<string, Knex.Config>
+export interface DatabaseModuleAsyncOptions
+  extends Pick<ModuleMetadata, 'imports'> {
+  name?: string;
+
+  useExisting?: Type<DatabaseOptionsFactory>;
+
+  useClass?: Type<DatabaseOptionsFactory>;
+
+  useFactory?: (
+    ...args: any[]
+  ) => DatabaseModuleOptions | Promise<DatabaseModuleOptions>;
+
+  inject?: FactoryProvider['inject'];
 }

@@ -1,44 +1,38 @@
-import { BelongsToManyOptions } from "../../interfaces";
-import { ModelClass } from "../../types";
-import { toSnakeCase } from "../../utils";
-import { Model } from "../model";
-import { BaseRelation } from "./base.relation";
+import { BelongsToManyOptions } from '../../interfaces';
+import { toSnakeCase } from '../../utils';
+import { Model } from '../model';
+import { Relation } from './relation';
 
-export class BelongsToManyRelation extends BaseRelation {
-    table: string;
+export class BelongsToManyRelation extends Relation<BelongsToManyOptions> {
+  table: string;
 
-    parentFK: string;
+  prepareOptions() {
+    this.table =
+      this.options.table ??
+      `${toSnakeCase(this.related.name)}_${toSnakeCase(this.target.name)}`;
+  }
 
-    relatedFK: string;
+  getRelation() {
+    return this.createRelation({
+      relation: Model.ManyToManyRelation,
+      join: {
+        from: this.joinFrom,
+        to: this.joinTo,
+        through: this.joinThrough,
+      },
+    });
+  }
 
-    options: BelongsToManyOptions;
+  get joinTo() {
+    return `${this.related.tableName}.id`;
+  }
 
-    constructor(target: Model, relatedClass: ModelClass, options: BelongsToManyOptions = {}) {
-        super(target, relatedClass);
+  get joinThrough() {
+    if (!this.table) return null;
 
-        this.options = options;
-    }
-
-    setOptions() {
-        this.table = this.options.table ?? `${toSnakeCase(this.related.name)}_${toSnakeCase(this.target.name)}`
-        this.parentFK = this.options.parentFK ?? `${toSnakeCase(this.target.name)}_id`;
-        this.relatedFK = this.options.relatedFK ?? `${toSnakeCase(this.related.name)}_id`;
-    }
-
-    getRelation() {
-        this.setOptions();
-
-        return this.mergeRelation({
-            modelClass: this.relatedClass,
-            relation: Model.ManyToManyRelation,
-            join: {
-                from: `${this.target.tableName}.id`,
-                through: {
-                    from: `${this.table}.${this.parentFK}`,
-                    to: `${this.table}.${this.relatedFK}`
-                },
-                to: `${this.related.tableName}.id`,
-            },
-        })
-    }
+    return {
+      from: `${this.table}.${toSnakeCase(this.target.name)}_id`,
+      to: `${this.table}.${toSnakeCase(this.related.name)}_id`,
+    };
+  }
 }

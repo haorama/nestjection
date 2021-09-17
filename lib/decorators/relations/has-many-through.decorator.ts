@@ -1,23 +1,34 @@
-import { HasManyThroughOptions } from "../../interfaces";
-import { HasManyThroughRelation } from "../../orm";
-import { addRelation } from "../../storages/relation.storage";
-import { ModelClass } from "../../types";
+import { HasManyThroughOptions } from '../../interfaces';
+import { HasManyThroughRelation } from '../../orm';
+import { addRelation } from '../../storages/relation.storage';
+import { ModelClass } from '../../types';
 
-export function HasManyThrough(modelClass: ModelClass, table: string): PropertyDecorator;
-export function HasManyThrough(modelClass: ModelClass, options: HasManyThroughOptions): PropertyDecorator;
+export function HasManyThrough(
+  modelClass: ModelClass,
+  through: ModelClass,
+): PropertyDecorator;
+export function HasManyThrough(
+  modelClass: ModelClass,
+  options: HasManyThroughOptions,
+): PropertyDecorator;
+export function HasManyThrough(
+  modelClass: ModelClass,
+  arg: ModelClass | HasManyThroughOptions,
+): PropertyDecorator {
+  return (target: any, key: string) => {
+    let options: HasManyThroughOptions = {};
 
-export function HasManyThrough(modelClass: ModelClass, throughTableOrOptions: string | HasManyThroughOptions): PropertyDecorator {
-    return (target: any, propertyKey: string) => {
-        let hasManyThroughOptions: any = {};
-
-        if (typeof throughTableOrOptions === 'string') {
-            hasManyThroughOptions.through = throughTableOrOptions;
-        } else {
-            hasManyThroughOptions = throughTableOrOptions;
-        }
-
-        hasManyThroughOptions.as = propertyKey;
-
-        addRelation(target, new HasManyThroughRelation(target, modelClass, hasManyThroughOptions))
+    if (typeof arg === 'object') {
+      options = arg;
+    } else {
+      options.through = arg;
     }
+
+    options.as = key;
+
+    addRelation(
+      target,
+      new HasManyThroughRelation(target, modelClass, options),
+    );
+  };
 }

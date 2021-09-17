@@ -1,3 +1,3 @@
 export function getConnectionToken(name?: string) {
-    return `knex_connection_${name || 'default'}`;
+  return `knex_connection_${name || 'default'}`;
 }

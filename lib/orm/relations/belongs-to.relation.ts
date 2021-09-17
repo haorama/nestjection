@@ -1,29 +1,17 @@
-import { BelongsToOptions } from "../../interfaces";
-import { ModelClass } from "../../types";
-import { Model } from "../model";
-import { BaseRelation } from "./base.relation";
+import { BelongsToOptions } from '../../interfaces';
+import { Model } from '../model';
+import { Relation } from './relation';
 
-export class BelongsToRelation extends BaseRelation {
-    options?: BelongsToOptions;
+export class BelongsToRelation extends Relation<BelongsToOptions> {
+  protected inverse = true;
 
-    constructor(target: Model, relatedClass: ModelClass, options: BelongsToOptions = {}) {
-        super(target, relatedClass);
-        this.inverse = true;
-
-        this.options = options;
-    }
-
-    getRelation() {
-        this.setForeignKey(this.options.foreignKey);
-        this.setOwnerKey(this.options.ownerKey);
-
-        return this.mergeRelation({
-            modelClass: this.relatedClass,
-            relation: Model.BelongsToOneRelation,
-            join: {
-                to: `${this.target.tableName}.${this.foreignKey}`,
-                from: `${this.related.tableName}.${this.ownerKey}`,
-            }
-        })
-    }
+  getRelation() {
+    return this.createRelation({
+      relation: Model.BelongsToOneRelation,
+      join: {
+        from: this.joinFrom,
+        to: this.joinTo,
+      },
+    });
+  }
 }

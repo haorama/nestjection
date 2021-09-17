@@ -1,60 +1,51 @@
-import { BelongsToManyRelation } from ".";
-import { QueryBuilder } from "..";
-import { MorphToManyOptions } from "../../interfaces/relations/morph-to-many.options";
-import { ModelClass } from "../../types";
-import { Model } from "../model";
+import { QueryBuilder } from '..';
+import { MorphToManyOptions } from '../..';
+import { Relation } from './relation';
 
-export class MorphToManyRelation extends BelongsToManyRelation {
-    options: MorphToManyOptions;
+export class MorphToManyRelation extends Relation<MorphToManyOptions> {
+  table: string;
 
-    type: string;
-    id: string;
+  type: string;
+  id: string;
 
-    from: string;
-    to: string;
+  prepareOptions() {
+    this.type = this.options.type ?? `${this.options.morphName}_type`;
+    this.id = this.options.id ?? `${this.options.morphName}_id`;
+    this.table =
+      this.options.table ?? this.getPluralKey(this.options.morphName);
+  }
 
-    constructor(target: Model, related: ModelClass, options?: MorphToManyOptions) {
-        super(target, related);
+  getRelation() {
+    const typeValue = this.options.typeValue || this.target.name;
 
-        this.options = options;
-    }
+    return this.createRelation({
+      relation: this.target.ManyToManyRelation,
+      filter: (builder: QueryBuilder<any>) => {
+        builder.where(this.type, typeValue);
+      },
+      beforeInsert: (model: any) => {
+        //this may not needed but we'll look into it
+        model[this.type] = typeValue;
+      },
+      join: {
+        from: this.joinFrom,
+        to: this.joinTo,
+        through: this.joinThrough,
+      },
+    });
+  }
 
-    setMorphAttribute() {
-        this.type = this.options.type ?? `${this.options.morphName}_type`;
-        this.id = this.options.id ?? `${this.options.morphName}_id`;
-        this.table = this.options.table ?? `${this.options.morphName}s`;
+  get joinTo() {
+    return `${this.related.tableName}.id`;
+  }
 
-        this.from = this.options.from ?? 'id';
+  get joinThrough() {
+    const toKey = `${this.getSingularKey(this.related.name)}_id`;
 
-        this.to = this.options.to ?? 'id';
-    }
-
-    getRelation() {
-        const superRelation = super.getRelation();
-
-        this.setMorphAttribute();
-
-        const typeValue = this.options.typeValue || this.target.name;
-
-        const relation = {
-            ...superRelation,
-            filter: (builder: QueryBuilder<any>) => {
-                builder.where(this.type, typeValue);
-            },
-            beforeInsert: (model: any) => {
-                model[this.type] = typeValue;
-            },
-            join: {
-                from: `${this.target.tableName}.${this.from}`,
-                to: `${this.related.tableName}.${this.to}`,
-                through: {
-                    from: `${this.table}.${this.relatedFK}`,
-                    to: `${this.table}.${this.id}`,
-                    extra: [this.type]
-                }
-            }
-        }
-
-        return relation;
-    }
+    return {
+      from: `${this.table}.${this.id}`,
+      to: `${this.table}.${toKey}`,
+      extra: [this.type],
+    };
+  }
 }

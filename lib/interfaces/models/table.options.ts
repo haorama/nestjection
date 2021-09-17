@@ -1,4 +1,4 @@
 export interface TableOptions {
-    name?: string;
-    softDelete?: boolean | string;
+  name?: string;
+  softDelete?: boolean | string;
 }
