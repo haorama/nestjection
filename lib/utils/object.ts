@@ -1,3 +1,7 @@
+export function isObject(value: any) {
+  return value !== null && typeof value === 'object';
+}
+
 export function objExcept(obj: object, keys: string[]) {
   const vkeys = Object.keys(obj).filter((k) => !keys.includes(k));
 

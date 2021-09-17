@@ -24,6 +24,7 @@ export class MorphToManyRelation extends Relation<MorphToManyOptions> {
         builder.where(this.type, typeValue);
       },
       beforeInsert: (model: any) => {
+        //this may not needed but we'll look into it
         model[this.type] = typeValue;
       },
       join: {

@@ -3,10 +3,17 @@ import {
   ModelClassFactory,
   Modifier,
   QueryBuilderType,
-  RelationJoin,
   RelationMappingHook,
+  RelationThrough,
+  RelationMappingColumnRef,
 } from 'objection';
 import { ModelClass } from '../../types';
+
+interface RelationJoin {
+  from: RelationMappingColumnRef;
+  to: RelationMappingColumnRef;
+  through?: Partial<RelationThrough<any>>;
+}
 
 /**
  * All relation mapping from objection are optional so everything is partial

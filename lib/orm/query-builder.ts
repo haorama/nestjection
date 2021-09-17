@@ -2,9 +2,21 @@ import {
   QueryBuilder as ObjectionQueryBuilder,
   Model as ObjectionModel,
   Page,
+  raw,
 } from 'objection';
-import { PaginationOptions } from '../interfaces';
+import {
+  PaginationOptions,
+  SyncOptions,
+  WhereDateOptions,
+} from '../interfaces';
 import { SimplePaginator } from '../paginators';
+import { isObject } from '../utils';
+import merge from 'lodash.merge';
+import dayjs from 'dayjs';
+import utcPlugin from 'dayjs/plugin/utc';
+import timezonePlugin from 'dayjs/plugin/timezone';
+dayjs.extend(utcPlugin);
+dayjs.extend(timezonePlugin);
 
 export class QueryBuilder<
   M extends ObjectionModel,
@@ -121,12 +133,6 @@ export class QueryBuilder<
     return this.select(...selectCounts);
   }
 
-  whereJSON(jsonColumn: string, prop: string, value: any) {
-    return this.whereRaw(`JSON_EXTRACT(${jsonColumn}, "$.${prop}") = ?`, [
-      value,
-    ]);
-  }
-
   /** Check if model has the given relation */
   whereHas(relation: keyof M, callback?: (query: any) => void) {
     const related = this.modelClass().relatedQuery(relation);
@@ -141,5 +147,85 @@ export class QueryBuilder<
     const related = this.modelClass().relatedQuery(relation);
 
     return this.whereNotExists(related);
+  }
+
+  /**
+   * Sync the intermediate tables with a list of IDs or models.
+   */
+  sync(ids: any[], detaching?: boolean): any[];
+  sync(ids: any[], options?: SyncOptions): any[];
+  sync(ids: any[], detachOrOptions?: boolean | SyncOptions) {
+    let options: SyncOptions = {};
+
+    if (detachOrOptions) {
+      if (typeof detachOrOptions === 'boolean') {
+        options.detaching = detachOrOptions;
+      } else {
+        options = detachOrOptions;
+      }
+    }
+
+    const idColumn = this.modelClass().idColumn as string;
+
+    if (options.detaching) {
+      //if ids is an array-object, pick the id column only
+      const detach = ids.map((id) => (isObject(id) ? id[idColumn] : id));
+
+      this.clone().unrelate().whereNotIn(idColumn, detach).execute();
+    }
+
+    ids.map((id) => {
+      //if id is an object, use id as object and add other key except idColumn as extras field
+      const relate: any = isObject(id) ? id : { [idColumn]: id };
+
+      this.clone().relate(relate).execute();
+    });
+
+    return ids;
+  }
+
+  /**
+   * Experimental
+   *
+   * compare a column's value against a date
+   */
+  whereDate(column: string, args: WhereDateOptions) {
+    const options = merge(
+      {
+        operator: '=',
+        dateFormat: '%Y-%m-%d',
+      },
+      args,
+    );
+
+    if (options.timezone) {
+      const { valid, offset } = this.getTimezoneOffset(options.timezone);
+      const dateBindings = [column, offset, options.dateFormat];
+
+      if (!valid) throw new Error(`Timezone ${options.timezone} is invalid`);
+
+      return this.where(
+        raw(`date_format( CONVERT_TZ(??, 'SYSTEM', ?), ? )`, dateBindings),
+        options.operator,
+        options.value,
+      );
+    }
+
+    return this.where(
+      raw(`date_format(??, ?)`, [column, options.dateFormat]),
+      options.operator,
+      options.value,
+    );
+  }
+
+  protected getTimezoneOffset(timezone?: string) {
+    const date = timezone ? dayjs().tz(timezone) : dayjs();
+
+    const offset = date.utcOffset() / 60;
+
+    return {
+      valid: date.isValid(),
+      offset: offset >= 0 ? `+${offset}:00` : `${offset}:00`,
+    };
   }
 }
