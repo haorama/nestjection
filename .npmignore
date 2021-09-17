@@ -16,6 +16,9 @@ nodemon.json
 .env
 yarn-error.log
 yarn.lock
+.eslintignore
+.prettierignore
+.eslintrc.js
 
 # github
 .github
