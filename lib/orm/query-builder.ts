@@ -152,9 +152,9 @@ export class QueryBuilder<
   /**
    * Sync the intermediate tables with a list of IDs or models.
    */
-  sync(ids: any[], detaching?: boolean): any[];
-  sync(ids: any[], options?: SyncOptions): any[];
-  sync(ids: any[], detachOrOptions?: boolean | SyncOptions) {
+  sync(ids: any[], detaching?: boolean): Promise<any>;
+  sync(ids: any[], options?: SyncOptions): Promise<any>;
+  async sync(ids: any[], detachOrOptions?: boolean | SyncOptions) {
     let options: SyncOptions = {};
 
     if (detachOrOptions) {
@@ -171,17 +171,19 @@ export class QueryBuilder<
       //if ids is an array-object, pick the id column only
       const detach = ids.map((id) => (isObject(id) ? id[idColumn] : id));
 
-      this.clone().unrelate().whereNotIn(idColumn, detach).execute();
+      await this.clone()
+        .unrelate()
+        .whereNotIn(`${this.modelClass().tableName}.${idColumn}`, detach);
     }
 
-    ids.map((id) => {
-      //if id is an object, use id as object and add other key except idColumn as extras field
-      const relate: any = isObject(id) ? id : { [idColumn]: id };
+    return await Promise.all(
+      ids.map(async (id) => {
+        //if id is an object, use id as object and add other key except idColumn as extras field
+        const relate: any = isObject(id) ? id : { [idColumn]: id };
 
-      this.clone().relate(relate).execute();
-    });
-
-    return ids;
+        this.clone().relate(relate).execute();
+      }),
+    );
   }
 
   /**
