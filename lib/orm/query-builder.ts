@@ -10,7 +10,7 @@ import {
   WhereDateOptions,
 } from '../interfaces';
 import { SimplePaginator } from '../paginators';
-import { isObject } from '../utils';
+import { arrayDiff, isObject } from '../utils';
 import merge from 'lodash.merge';
 import dayjs from 'dayjs';
 import utcPlugin from 'dayjs/plugin/utc';
@@ -149,12 +149,7 @@ export class QueryBuilder<
     return this.whereNotExists(related);
   }
 
-  /**
-   * Sync the intermediate tables with a list of IDs or models.
-   */
-  sync(ids: any[], detaching?: boolean): Promise<any>;
-  sync(ids: any[], options?: SyncOptions): Promise<any>;
-  async sync(ids: any[], detachOrOptions?: boolean | SyncOptions) {
+  private getDetachOptions(detachOrOptions?: boolean | SyncOptions) {
     let options: SyncOptions = {};
 
     if (detachOrOptions) {
@@ -165,25 +160,42 @@ export class QueryBuilder<
       }
     }
 
+    return options;
+  }
+
+  sync(ids: any[], detaching?: boolean): Promise<any>;
+  sync(ids: any[], options?: SyncOptions): Promise<any>;
+  async sync(keys: any[], detachOrOptions?: boolean | SyncOptions) {
+    const options = this.getDetachOptions(detachOrOptions);
+
     const idColumn = this.modelClass().idColumn as string;
 
-    if (options.detaching) {
-      //if ids is an array-object, pick the id column only
-      const detach = ids.map((id) => (isObject(id) ? id[idColumn] : id));
+    const ids: any[] = keys.map((key) => (isObject(key) ? key[idColumn] : key));
 
+    const current: any[] = ((await this) as any).map((c: any) => c[idColumn]);
+
+    const detach = arrayDiff(current, ids);
+
+    const attach = arrayDiff(ids, current);
+
+    if (options.detaching && detach.length) {
       await this.clone()
-        .unrelate()
-        .whereNotIn(`${this.modelClass().tableName}.${idColumn}`, detach);
+        .alias('sync_pivot')
+        .whereIn(`sync_pivot.${idColumn}`, detach)
+        .unrelate();
     }
 
-    return await Promise.all(
-      ids.map(async (id) => {
-        //if id is an object, use id as object and add other key except idColumn as extras field
-        const relate: any = isObject(id) ? id : { [idColumn]: id };
+    if (attach.length) {
+      const relations = keys.filter((k) =>
+        attach.includes(!isObject(k) ? k : k[idColumn]),
+      );
 
-        this.clone().relate(relate).execute();
-      }),
-    );
+      return await Promise.all(
+        relations.map(async (relate) => await this.clone().relate(relate)),
+      );
+    }
+
+    return true;
   }
 
   /**
