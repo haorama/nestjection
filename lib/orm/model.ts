@@ -9,6 +9,7 @@ export class Model extends ObjectionModel {
 
   static booted = false;
   static connection?: string;
+  static useLimitInFirst = true;
 
   constructor(attrs: object = {}) {
     super();
@@ -19,8 +20,6 @@ export class Model extends ObjectionModel {
   static get hiddenFields(): string[] {
     return [];
   }
-
-  static useLimitInFirst = true;
 
   /** Exclude virtual / custom attributes to be save to database */
   exclude(): string[] {
@@ -51,10 +50,8 @@ export class Model extends ObjectionModel {
     return json;
   }
 
-  static boot() {
+  static boot(model: any) {
     this.booted = true;
-
-    const model = new this();
 
     this.prepareModel(model);
   }
