@@ -51,10 +51,8 @@ export class Model extends ObjectionModel {
     return json;
   }
 
-  static boot() {
+  static boot(model: any) {
     this.booted = true;
-
-    const model = new this();
 
     this.prepareModel(model);
   }

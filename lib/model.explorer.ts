@@ -74,7 +74,7 @@ export class ModelExplorer implements OnApplicationBootstrap, OnModuleInit {
       }
     }
 
-    model.boot();
+    model.boot(new model());
   }
 
   private shouldShowDebug(debug?: boolean) {
