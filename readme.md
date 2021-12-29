@@ -22,4 +22,4 @@ Dont forget to install `knex` and `objection`, they all peer dependencies
 
 ## Documentation
 
-Visit [Nestjection Docs](https://nestjection.haorama.com)
+Visit [Nestjection Docs](https://haorama.gitbook.io/nestjection)
